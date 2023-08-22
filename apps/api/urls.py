@@ -33,5 +33,6 @@ urlpatterns = [
     path('docs', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     # APIs urls
     path('v1/', include('apps.api.modules.UserApi.urls')),
-    path('v1/', include('apps.api.modules.CmsApi.urls'))
+    path('v1/', include('apps.api.modules.CmsApi.urls')),
+    path('v1/', include('apps.api.modules.HomeApi.urls'))
 ]

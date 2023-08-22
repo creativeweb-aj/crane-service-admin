@@ -593,7 +593,7 @@ def updatePerson(request, id):
                 form[field].field.widget.attrs['class'] += ' is-invalid'
     else:
         data = {
-            "title": obj.title,
+            "name": obj.name,
             "designation": obj.designation,
             "image": obj.image
         }

@@ -47,7 +47,7 @@
 									{{model_name_singular}} Information</h3>
 								<div class="row">
 									{% for field in form %}
-										<div class="col-xl-6">
+										<div class="col-xl-12">
 											<!--begin::Input-->
 											<div class="form-group">
 												<label>{{field.label | safe}}</label>
@@ -77,6 +77,14 @@
 	</div>
 </div>
 <script>
-
+	CKEDITOR.replace(
+		"id_description",
+		{
+			height: 300,
+			filebrowserImageWindowWidth: '640',
+			filebrowserImageWindowHeight: '480',
+			enterMode: CKEDITOR.ENTER_BR
+		}
+	);
 </script>
 {% endblock %}
