@@ -1,0 +1,20 @@
+# Define all apps here
+DJANGO_APP = [
+    'apps.users.apps.UsersConfig',
+    'apps.login',
+    'apps.dashboard',
+    'apps.cms_pages',
+    'apps.email_templates',
+    'apps.email_logs',
+    'apps.settings',
+    'apps.faq',
+    'apps.api',
+    'apps.permissions',
+    'apps.languages',
+    'apps.project',
+    'apps.service',
+    'apps.about',
+    'apps.customers',
+    'apps.social_page',
+    'drf_yasg',
+]

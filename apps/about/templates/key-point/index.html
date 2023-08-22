@@ -1,0 +1,295 @@
+{% extends "default.html" %}
+{% load static %}
+{% load site_tags %}
+{% block content %}
+<!--begin::Content-->
+<div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+	<!--begin::Subheader-->
+	<div class="subheader py-2 py-lg-4  subheader-solid " id="kt_subheader">
+		<div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+			<!--begin::Info-->
+			<div class="d-flex align-items-center flex-wrap mr-1">
+				<!--begin::Page Heading-->
+				<div class="d-flex align-items-baseline flex-wrap mr-5">
+					<!--begin::Page Title-->
+					<h5 class="text-dark font-weight-bold my-1 mr-5">
+						{{model_name_plural}}
+					</h5>
+					<!--end::Page Title-->
+					<!--begin::Breadcrumb-->
+					<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+						<li class="breadcrumb-item">
+							<a href="{% url 'dashboard.index'%}" class="text-muted">Dashboard</a>
+						</li>
+					</ul>
+					<!--end::Breadcrumb-->
+				</div>
+				<!--end::Page Heading-->
+			</div>
+			<!--end::Info-->
+		</div>
+	</div>
+	<!--end::Subheader-->
+	<!--begin::Entry-->
+	<div class="d-flex flex-column-fluid">
+		<!--begin::Container-->
+		<div class=" container ">
+			<form action="{% url 'keypoint.index' %}" class="kt-form kt-form--fit mb-0" autocomplete="off">
+				<div class="row">
+					<div class="col-12">
+						<div class="card card-custom card-stretch card-shadowless">
+							<div class="card-header">
+								<div class="card-title">
+								</div>
+								<div class="card-toolbar">
+									<a href="javascript:void(0);" class="btn btn-primary dropdown-toggle mr-2"
+										data-toggle="collapse" data-target="#collapseOne6">
+										Search
+									</a>
+									{% if 'keypoint.add' in actions or isAdmin %}
+                                        <a href="{% url 'keypoint.add' %}" class="btn btn-primary">Add New
+                                            {{model_name_singular}} </a>
+                                    {% endif %}
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="accordion accordion-solid accordion-toggle-plus" id="accordionExample6">
+									<div id="collapseOne6" class="{% if searching_variables %} show {% endif %}collapse" data-parent="#accordionExample6">
+										<div>
+											<div class="row mb-6">
+												<div class="col-lg-3 mb-lg-5 mb-6">
+													<label>Name</label>
+													<input type="text" name="name" value="{{searching_variables.name}}"
+														class="form-control" placeholder="Name" />
+												</div>
+											</div>
+											<div class="row mt-8">
+												<div class="col-lg-12">
+													<button class="btn btn-primary btn-primary--icon" id="kt_search">
+														<span>
+															<i class="la la-search"></i>
+															<span>Search</span>
+														</span>
+													</button>
+													&nbsp;&nbsp;
+
+													<a href="{% url 'keypoint.index' %}"
+														class="btn btn-secondary btn-secondary--icon">
+														<span>
+															<i class="la la-close"></i>
+															<span>Clear Search</span>
+														</span>
+													</a>
+												</div>
+											</div>
+											<!--begin: Datatable-->
+											<hr>
+										</div>
+									</div>
+								</div>
+								<div class="dataTables_wrapper ">
+									<div class="table-responsive">
+										<table
+											class="table dataTable table-head-custom table-head-bg table-borderless table-vertical-center"
+											id="taskTable">
+											<thead>
+												<tr class="text-uppercase">
+													<th class="sorting">
+														<a
+															href="?page={{ page }}&order_by=icon&direction={% if direction == 'ASC' and order_by == 'icon' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Icon
+														</a>
+													</th>
+													<th class="sorting">
+														<a
+															href="?page={{ page }}&order_by=name&direction={% if direction == 'ASC' and order_by == 'name' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Name
+														</a>
+													</th>
+													<th class="sorting">
+														<a
+															href="?page={{ page }}&order_by=created_at&direction={% if direction == 'ASC' and order_by == 'created_at' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Created On
+														</a>
+													</th>
+													<th class="sorting">
+                                                        <a href="?page={{ page }}&order_by=is_active&direction={% if direction == 'ASC' and order_by == 'is_active' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+                                                            Status
+                                                        </a>
+                                                    </th>
+													<th class="text-right">
+														Action
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% if results %}
+													{%for data in results%}
+														<tr>
+															<td>
+																<div class="text-dark-75 mb-1 font-size-lg">
+																	{% if data.icon %}
+																	<img src="{{data.icon.url}}" alt="Key point icon">
+																	{% endif %}
+																</div>
+															</td>
+															<td>
+																<div class="text-dark-75 mb-1 font-size-lg">
+																	{{data.name | title}}
+																</div>
+															</td>
+															<td>
+																<div class="text-dark-75 mb-1 font-size-lg">
+																	{{data.updated_at |date:"m-d-Y" }}
+																</div>
+															</td>
+															 <td>
+                                                                {% if data.is_active %}
+                                                                    <span
+                                                                        class="label label-lg label-light-success label-inline">Activated
+                                                                    </span>
+                                                                {% else %}
+                                                                    <span
+                                                                        class="label label-lg label-light-danger label-inline">Deactivated
+                                                                    </span>
+                                                                {% endif %}
+                                                            </td>
+															<td class="text-right pr-2">
+																{% if 'keypoint.status' in actions or isAdmin %}
+                                                                    {% if data.is_active == 1%}
+                                                                        <a title="Click To Deactivate"
+                                                                            href="{% url 'keypoint.status' data.id  %}"
+                                                                            class="btn btn-icon btn-light btn-hover-danger btn-sm status_any_item"
+                                                                            data-toggle="tooltip" data-placement="top"
+                                                                            data-container="body" data-boundary="window"
+                                                                            data-original-title="Deactivate">
+                                                                            <span class="svg-icon svg-icon-md svg-icon-danger">
+                                                                                <svg fill="#F64E60" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>dot-circle-line</title> <path d="M18,11a7,7,0,1,1-7,7,7,7,0,0,1,7-7" class="clr-i-outline clr-i-outline-path-1"></path><path d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z" class="clr-i-outline clr-i-outline-path-2"></path> <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect> </g></svg>
+                                                                            </span>
+                                                                        </a>
+                                                                    {% else %}
+                                                                        <a title="Click To Activate"
+                                                                            href="{% url 'keypoint.status' data.id %}"
+                                                                            class="btn btn-icon btn-light btn-hover-success btn-sm status_any_item"
+                                                                            data-toggle="tooltip" data-placement="top"
+                                                                            data-container="body" data-boundary="window"
+                                                                            data-original-title="Activate">
+                                                                            <span class="svg-icon svg-icon-md svg-icon-success">
+                                                                                <svg fill="#1BC5BD" viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>dot-circle-line</title> <path d="M18,11a7,7,0,1,1-7,7,7,7,0,0,1,7-7" class="clr-i-outline clr-i-outline-path-1"></path><path d="M18,34A16,16,0,1,1,34,18,16,16,0,0,1,18,34ZM18,4A14,14,0,1,0,32,18,14,14,0,0,0,18,4Z" class="clr-i-outline clr-i-outline-path-2"></path> <rect x="0" y="0" width="36" height="36" fill-opacity="0"></rect> </g></svg>
+                                                                            </span>
+                                                                        </a>
+                                                                    {% endif %}
+                                                                {% endif %}
+																{% if 'keypoint.view' in actions or isAdmin %}
+                                                                    <a href="{% url 'keypoint.view' data.id %}"
+                                                                        class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                                                        data-toggle="tooltip" data-placement="top"
+                                                                        data-container="body" data-boundary="window" title=""
+                                                                        data-original-title="View">
+                                                                        <span class="svg-icon svg-icon-md svg-icon-primary">
+                                                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <circle cx="12" cy="12" r="1" stroke="#3699FF" stroke-width="2"></circle> <path d="M18.2265 11.3805C18.3552 11.634 18.4195 11.7607 18.4195 12C18.4195 12.2393 18.3552 12.366 18.2265 12.6195C17.6001 13.8533 15.812 16.5 12 16.5C8.18799 16.5 6.39992 13.8533 5.77348 12.6195C5.64481 12.366 5.58048 12.2393 5.58048 12C5.58048 11.7607 5.64481 11.634 5.77348 11.3805C6.39992 10.1467 8.18799 7.5 12 7.5C15.812 7.5 17.6001 10.1467 18.2265 11.3805Z" stroke="#3699FF" stroke-width="2"></path> <path d="M17 4H17.2C18.9913 4 19.887 4 20.4435 4.5565C21 5.11299 21 6.00866 21 7.8V8M17 20H17.2C18.9913 20 19.887 20 20.4435 19.4435C21 18.887 21 17.9913 21 16.2V16M7 4H6.8C5.00866 4 4.11299 4 3.5565 4.5565C3 5.11299 3 6.00866 3 7.8V8M7 20H6.8C5.00866 20 4.11299 20 3.5565 19.4435C3 18.887 3 17.9913 3 16.2V16" stroke="#3699FF" stroke-width="2" stroke-linecap="round"></path> </g></svg>
+                                                                        </span>
+                                                                    </a>
+                                                                {% endif %}
+																{% if 'keypoint.update' in actions or isAdmin %}
+																<a href="{% url 'keypoint.update' data.id %}"
+                                                                    class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                                                    data-toggle="tooltip" data-placement="top"
+                                                                    data-container="body" data-boundary="window" title=""
+                                                                    data-original-title="Edit">
+                                                                    <span class="svg-icon svg-icon-md svg-icon-primary">
+                                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5" stroke="#3699FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                                                    </span>
+                                                                </a>
+																{% endif %}
+																{% if 'keypoint.delete' in actions or isAdmin %}
+                                                                    <a href="{% url 'keypoint.delete' data.id %}"
+                                                                        class="btn btn-icon btn-light btn-hover-danger btn-sm confirmDelete"
+                                                                        data-toggle="tooltip" data-placement="top"
+                                                                        data-container="body" data-boundary="window" title=""
+                                                                        data-original-title="Delete">
+                                                                        <span class="svg-icon svg-icon-md svg-icon-danger">
+                                                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 12V17" stroke="#F64E60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 12V17" stroke="#F64E60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="#F64E60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="#F64E60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#F64E60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                                                        </span>
+                                                                    </a>
+                                                                {% endif %}
+															</td>
+														</tr>
+													{% endfor %}
+												{% else %}
+												<tr>
+													<td colspan="5" style="text-align:center;">
+														Record not found.
+													</td>
+												</tr>
+												{% endif %}
+											</tbody>
+										</table>
+									</div>
+									{% include "paginations.html" %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!--end::Container-->
+	</div>
+	<!--end::Entry-->
+</div>
+<!--end::Content-->
+
+<script>
+	$(document).ready(function () {
+		$('#datepickerfrom').datetimepicker({
+			format: 'YYYY-MM-DD'
+		});
+		$('#datepickerto').datetimepicker({
+			format: 'YYYY-MM-DD'
+		});
+
+		$(".confirmDelete").click(function (e) {
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			Swal.fire({
+				title: "Are you sure?",
+				text: "Want to delete this ?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "Yes, delete it",
+				cancelButtonText: "No, cancel",
+				reverseButtons: true
+			}).then(function (result) {
+				if (result.value) {
+					window.location.replace(url);
+				} 
+			});
+			e.preventDefault();
+		});
+
+		$(".status_any_item").click(function (e) {
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			Swal.fire({
+				title: "Are you sure?",
+				text: "Want to change status this ?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "Yes, change it",
+				cancelButtonText: "No, cancel",
+				reverseButtons: true
+			}).then(function (result) {
+				if (result.value) {
+					window.location.replace(url);
+				}
+			});
+			e.preventDefault();
+		});
+	});
+
+	function page_limit() {
+		$("form").submit();
+	}
+</script>
+{% endblock %}

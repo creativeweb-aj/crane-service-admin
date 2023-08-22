@@ -1,0 +1,427 @@
+{% load static %}
+{% load site_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="">
+    <meta charset="utf-8" />
+    <title>{% site_title %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no, user-scalable=no" />
+    {% load pwa %}
+    {% progressive_web_app_meta %}
+
+    <link rel="shortcut icon" href="{% static 'img/favicon.png' %}" />
+    <!--  Styles  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">
+    <link href="{% static 'css/plugins.bundle.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/prismjs.bundle.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/datatables.bundle.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/style.bundle.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/themes/layout/header/base/light.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/themes/layout/header/menu/light.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/themes/layout/brand/dark.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/themes/layout/aside/dark.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!--  Scripts  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+    <script src="{% static 'js/ckeditor/ckeditor.js' %}"></script>
+    <script src="{% static 'js/plugins.bundle.js' %}"></script>
+    <script src="{% static 'js/prismjs.bundle.js' %}"></script>
+    <script src="{% static 'js/sweetalert2.js' %}"></script>
+    <script src="{% static 'js/validation.js' %}"></script>
+    <script src="{% static 'js/Main.js' %}"></script>
+    <script src="{% static 'js/scripts.bundle.js' %}"></script>
+</head>
+<!--end::Head-->
+{% get_segment1 segment1 request.path_info %}
+{% get_segment2 segment2 request.path_info %}
+{% modules as menus %}
+{% actions_list as actions %}
+{% isAdmin as isAdmin %}
+{% current_url as currentUrl %}
+<!--begin::Body-->
+<body id="kt_body"
+    class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+    <script type="text/javascript">
+        function show_message(message, message_type) {
+            Swal.fire({
+                position: "top-right",
+                icon: message_type,
+                title: message,
+                showConfirmButton: false,
+                timer: 8000
+            });
+        }
+        $(document).ready(function () {
+            $('.magnific-image').magnificPopup({ type: 'image' });
+            $('.fancybox-buttons').magnificPopup({ type: 'image' });
+        });
+    </script>
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == "error" %}
+                <script type="text/javascript">
+                    $(document).ready(function (e) {
+
+                        show_message("{{ message }}", 'error');
+                    });
+                </script>
+            {% else %}
+                <script type="text/javascript">
+                    $(document).ready(function (e) {
+
+                        show_message("{{ message }}", 'success');
+                    });
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <!--begin::Main-->
+    <!--begin::Header Mobile-->
+    <div id="kt_header_mobile" class="header-mobile align-items-center  header-mobile-fixed ">
+        <!--begin::Logo-->
+        <a href="">
+            <img alt="Logo" src="{% static 'img/logo-light.png' %}" width="30%" height="30%" />
+        </a>
+        <!--end::Logo-->
+        <!--begin::Toolbar-->
+        <div class="d-flex align-items-center">
+            <!--begin::Aside Mobile Toggle-->
+            <button class="btn p-0 burger-icon-left mr-2" id="kt_aside_mobile_toggle">
+                <span class="svg-icon svg-icon svg-icon-xl">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-left.svg-->
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3.29701 5.2338C3.52243 4.27279 4.27279 3.52243 5.2338 3.29701V3.29701C6.06663 3.10165 6.93337 3.10165 7.7662 3.29701V3.29701C8.72721 3.52243 9.47757 4.27279 9.70299 5.2338V5.2338C9.89835 6.06663 9.89835 6.93337 9.70299 7.7662V7.7662C9.47757 8.72721 8.72721 9.47757 7.7662 9.70299V9.70299C6.93337 9.89835 6.06663 9.89835 5.2338 9.70299V9.70299C4.27279 9.47757 3.52243 8.72721 3.29701 7.7662V7.7662C3.10166 6.93337 3.10166 6.06663 3.29701 5.2338V5.2338Z" stroke="#ffffff" stroke-width="1.5"></path> <path d="M3.29701 16.2338C3.52243 15.2728 4.27279 14.5224 5.2338 14.297V14.297C6.06663 14.1017 6.93337 14.1017 7.7662 14.297V14.297C8.72721 14.5224 9.47757 15.2728 9.70299 16.2338V16.2338C9.89835 17.0666 9.89835 17.9334 9.70299 18.7662V18.7662C9.47757 19.7272 8.72721 20.4776 7.7662 20.703V20.703C6.93337 20.8983 6.06663 20.8983 5.2338 20.703V20.703C4.27279 20.4776 3.52243 19.7272 3.29701 18.7662V18.7662C3.10166 17.9334 3.10166 17.0666 3.29701 16.2338V16.2338Z" stroke="#ffffff" stroke-width="1.5"></path> <path d="M14.297 5.2338C14.5224 4.27279 15.2728 3.52243 16.2338 3.29701V3.29701C17.0666 3.10165 17.9334 3.10165 18.7662 3.29701V3.29701C19.7272 3.52243 20.4776 4.27279 20.703 5.2338V5.2338C20.8983 6.06663 20.8983 6.93337 20.703 7.7662V7.7662C20.4776 8.72721 19.7272 9.47757 18.7662 9.70299V9.70299C17.9334 9.89835 17.0666 9.89835 16.2338 9.70299V9.70299C15.2728 9.47757 14.5224 8.72721 14.297 7.7662V7.7662C14.1017 6.93337 14.1017 6.06663 14.297 5.2338V5.2338Z" stroke="#ffffff" stroke-width="1.5"></path> <path d="M14.297 16.2338C14.5224 15.2728 15.2728 14.5224 16.2338 14.297V14.297C17.0666 14.1017 17.9334 14.1017 18.7662 14.297V14.297C19.7272 14.5224 20.4776 15.2728 20.703 16.2338V16.2338C20.8983 17.0666 20.8983 17.9334 20.703 18.7662V18.7662C20.4776 19.7272 19.7272 20.4776 18.7662 20.703V20.703C17.9334 20.8983 17.0666 20.8983 16.2338 20.703V20.703C15.2728 20.4776 14.5224 19.7272 14.297 18.7662V18.7662C14.1017 17.9334 14.1017 17.0666 14.297 16.2338V16.2338Z" stroke="#ffffff" stroke-width="1.5"></path> </g></svg>
+                            <!--end::Svg Icon-->
+                        </span>
+            </button>
+            <!--end::Aside Mobile Toggle-->
+            <!--begin::Topbar Mobile Toggle-->
+            <button class="btn btn-hover-text-primary p-0 ml-2" id="kt_header_mobile_topbar_toggle">
+                <span class="svg-icon svg-icon-xl">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 21C4 17.4735 6.60771 14.5561 10 14.0709M19.8726 15.2038C19.8044 15.2079 19.7357 15.21 19.6667 15.21C18.6422 15.21 17.7077 14.7524 17 14C16.2923 14.7524 15.3578 15.2099 14.3333 15.2099C14.2643 15.2099 14.1956 15.2078 14.1274 15.2037C14.0442 15.5853 14 15.9855 14 16.3979C14 18.6121 15.2748 20.4725 17 21C18.7252 20.4725 20 18.6121 20 16.3979C20 15.9855 19.9558 15.5853 19.8726 15.2038ZM15 7C15 9.20914 13.2091 11 11 11C8.79086 11 7 9.20914 7 7C7 4.79086 8.79086 3 11 3C13.2091 3 15 4.79086 15 7Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                </span> </button>
+            <!--end::Topbar Mobile Toggle-->
+        </div>
+        <!--end::Toolbar-->
+    </div>
+    <!--end::Header Mobile-->
+    <div class="d-flex flex-column flex-root">
+        <!--begin::Page-->
+        <div class="d-flex flex-row flex-column-fluid page">
+            <!--begin::Aside-->
+            <div class="aside aside-left  aside-fixed  d-flex flex-column flex-row-auto" id="kt_aside">
+                <!--begin::Brand-->
+                <div class="brand flex-column-auto " id="kt_brand">
+                    <!--begin::Logo-->
+                    <a href="{% url 'dashboard.index' %}" class="brand-logo w-100 justify-content-center">
+                        <img class="w-50" alt="Logo" src="{% static 'img/logo-light.png' %}" />
+                    </a>
+                    <!--end::Logo-->
+                    <!--begin::Toggle-->
+                    <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
+                        <span class="svg-icon svg-icon svg-icon-xl">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Angle-double-left.svg-->
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M3.29701 5.2338C3.52243 4.27279 4.27279 3.52243 5.2338 3.29701V3.29701C6.06663 3.10165 6.93337 3.10165 7.7662 3.29701V3.29701C8.72721 3.52243 9.47757 4.27279 9.70299 5.2338V5.2338C9.89835 6.06663 9.89835 6.93337 9.70299 7.7662V7.7662C9.47757 8.72721 8.72721 9.47757 7.7662 9.70299V9.70299C6.93337 9.89835 6.06663 9.89835 5.2338 9.70299V9.70299C4.27279 9.47757 3.52243 8.72721 3.29701 7.7662V7.7662C3.10166 6.93337 3.10166 6.06663 3.29701 5.2338V5.2338Z" stroke="#ffffff" stroke-width="1.5"></path> <path d="M3.29701 16.2338C3.52243 15.2728 4.27279 14.5224 5.2338 14.297V14.297C6.06663 14.1017 6.93337 14.1017 7.7662 14.297V14.297C8.72721 14.5224 9.47757 15.2728 9.70299 16.2338V16.2338C9.89835 17.0666 9.89835 17.9334 9.70299 18.7662V18.7662C9.47757 19.7272 8.72721 20.4776 7.7662 20.703V20.703C6.93337 20.8983 6.06663 20.8983 5.2338 20.703V20.703C4.27279 20.4776 3.52243 19.7272 3.29701 18.7662V18.7662C3.10166 17.9334 3.10166 17.0666 3.29701 16.2338V16.2338Z" stroke="#ffffff" stroke-width="1.5"></path> <path d="M14.297 5.2338C14.5224 4.27279 15.2728 3.52243 16.2338 3.29701V3.29701C17.0666 3.10165 17.9334 3.10165 18.7662 3.29701V3.29701C19.7272 3.52243 20.4776 4.27279 20.703 5.2338V5.2338C20.8983 6.06663 20.8983 6.93337 20.703 7.7662V7.7662C20.4776 8.72721 19.7272 9.47757 18.7662 9.70299V9.70299C17.9334 9.89835 17.0666 9.89835 16.2338 9.70299V9.70299C15.2728 9.47757 14.5224 8.72721 14.297 7.7662V7.7662C14.1017 6.93337 14.1017 6.06663 14.297 5.2338V5.2338Z" stroke="#ffffff" stroke-width="1.5"></path> <path d="M14.297 16.2338C14.5224 15.2728 15.2728 14.5224 16.2338 14.297V14.297C17.0666 14.1017 17.9334 14.1017 18.7662 14.297V14.297C19.7272 14.5224 20.4776 15.2728 20.703 16.2338V16.2338C20.8983 17.0666 20.8983 17.9334 20.703 18.7662V18.7662C20.4776 19.7272 19.7272 20.4776 18.7662 20.703V20.703C17.9334 20.8983 17.0666 20.8983 16.2338 20.703V20.703C15.2728 20.4776 14.5224 19.7272 14.297 18.7662V18.7662C14.1017 17.9334 14.1017 17.0666 14.297 16.2338V16.2338Z" stroke="#ffffff" stroke-width="1.5"></path> </g></svg>
+                            <!--end::Svg Icon-->
+                        </span> </button>
+                    <!--end::Toolbar-->
+                </div>
+                <!--end::Brand-->
+                <!--begin::Aside Menu-->
+                <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
+                    <!--begin::Menu Container-->
+                    <div id="kt_aside_menu" class="aside-menu my-4 " data-menu-vertical="1" data-menu-scroll="1"
+                        data-menu-dropdown-timeout="500">
+                        <!--begin::Menu Nav-->
+                        <ul class="menu-nav">
+                            {% for menu in menus %}
+                                {% if menu.sub_modules|length == 0 %}
+                                    <li class="menu-item {% if segment1 in menu.module_segment %} menu-item-active {% endif %}"
+                                        aria-haspopup="true">
+                                        <a href="{% url menu.module_path %}" class="menu-link ">
+                                            <span class="svg-icon menu-icon">
+                                                <!--begin::Svg Icon | path:assets/media/svg/icons/Design/Layers.svg-->
+                                                {{menu.module_icon|safe}}
+                                                <!--end::Svg Icon-->
+                                            </span>
+                                            <span class="menu-text">{{menu.module_title}}</span>
+                                        </a>
+                                    </li>
+                                {% elif menu.sub_modules|length != 0 %}
+                                    <li class="menu-item menu-item-submenu {% if segment1 in menu.module_segment %} menu-item-open {% endif %}"
+                                        aria-haspopup="true" data-menu-toggle="hover">
+                                        <a href="javascript:;" class="menu-link menu-toggle">
+                                            <span class="svg-icon menu-icon">
+                                                {{menu.module_icon|safe}}
+                                            </span>
+                                            <span class="menu-text">{{menu.module_title}}</span>
+                                            <i class="menu-arrow"></i>
+                                        </a>
+
+                                        <div class="menu-submenu">
+                                            <i class="menu-arrow"></i>
+                                            {% if menu.sub_modules|length > 0 %}
+                                                <ul class="menu-subnav">
+                                                    <li class="menu-item menu-item-parent" aria-haspopup="true">
+                                                        <span class="menu-link">
+                                                            <span class="menu-text">{{menu.module_title}}</span>
+                                                        </span>
+                                                    </li>
+                                                    {% for sub_menu in menu.sub_modules %}
+                                                        {% if sub_menu.sub_module_path == 'settings.prefix' %}
+                                                            {% if sub_menu.sub_module_order == 9 %}
+                                                                {% with urlName="site" %}
+                                                                    <li class="menu-item {% if currentUrl in sub_menu.sub_module_segment %} menu-item-active {% endif %} ">
+                                                                        <a href="{% url sub_menu.sub_module_path urlName %}" class="menu-link">
+<!--                                                                            <i class="menu-bullet menu-bullet-line"><span></span></i>-->
+                                                                            <span class="svg-icon menu-icon">
+                                                                                {{sub_menu.sub_module_icon|safe}}
+                                                                            </span>
+                                                                            <span class="menu-text">{{sub_menu.sub_module_title}}</span>
+                                                                        </a>
+                                                                    </li>
+                                                                {% endwith %}
+                                                            {% elif sub_menu.sub_module_order == 10 %}
+                                                                {% with urlName="reading" %}
+                                                                    <li class="menu-item {% if currentUrl in sub_menu.sub_module_segment %} menu-item-active {% endif %} ">
+                                                                        <a href="{% url sub_menu.sub_module_path urlName %}" class="menu-link">
+<!--                                                                            <i class="menu-bullet menu-bullet-line"><span></span></i>-->
+                                                                            <span class="svg-icon menu-icon">
+                                                                                {{sub_menu.sub_module_icon|safe}}
+                                                                            </span>
+                                                                            <span class="menu-text">{{sub_menu.sub_module_title}}</span>
+                                                                        </a>
+                                                                    </li>
+                                                                {% endwith %}
+                                                            {% endif %}
+                                                        {% else %}
+                                                            <li class="menu-item {% if segment1 in sub_menu.sub_module_segment and segment2|check_segment in sub_menu.sub_module_segment %} menu-item-active {% endif %} ">
+                                                                <a href="{% url sub_menu.sub_module_path %}" class="menu-link">
+                                                                    <span class="svg-icon menu-icon">
+                                                                        {{sub_menu.sub_module_icon|safe}}
+                                                                    </span>
+<!--                                                                    <i class="menu-bullet menu-bullet-line"><span></span></i>-->
+
+                                                                    <span class="menu-text">{{sub_menu.sub_module_title}}</span>
+                                                                </a>
+                                                            </li>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </ul>
+                                            {% endif %}
+                                        </div>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                        <!--end::Menu Nav-->
+                    </div>
+                    <!--end::Menu Container-->
+                </div>
+                <!--end::Aside Menu-->
+            </div>
+            <!--end::Aside-->
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                <!--begin::Header-->
+                <div id="kt_header" class="header  header-fixed ">
+                    <!--begin::Container-->
+                    <div class=" container-fluid  d-flex align-items-stretch justify-content-between">
+                        <!--begin::Topbar-->
+                        <div class="topbar ml-auto">
+                            <!--begin::Notifications-->
+                            <!--end::Notifications-->
+                            <!--begin::User-->
+                            <div class="dropdown ml-3">
+                                <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px">
+                                    <a href="#" class="d-flex align-items-center">
+                                        <div class="symbol symbol-30 symbol-circle symbol-primary mr-2">
+                                            <span class="symbol-label">{{user.first_name.0 | title}}</span>
+                                        </div>
+                                        <div class="d-flex flex-column text-left">
+                                            <span class="text-muted font-weight-bold">Admin</span>
+                                            <span class="text-primary font-weight-bold">{{user.first_name | title}}</span>
+                                        </div>
+                                    </a>
+                                </div>
+                                <!--begin::Dropdown-->
+                                <div class="dropdown-menu p-0 m-0 dropdown-menu-right dropdown-menu-anim-up dropdown-menu-lg">
+                                    <!--begin:Header-->
+                                    <div class="d-flex flex-column flex-center py-10 bgi-size-cover bgi-no-repeat rounded-top"
+                                        style="background-color: #0c1c26;">
+                                        <h4 class="text-white font-weight-bold mb-0">
+                                            Actions
+                                        </h4>
+                                    </div>
+                                    <!--end:Header-->
+                                    <!--begin:Nav-->
+                                    <div class="row row-paddingless">
+                                        <!--begin:Item-->
+                                        <div class="col-6">
+                                            <a href="{% url 'login.myaccount' %}"
+                                                class="d-block py-6 px-5 text-center bg-hover-light border-right border-bottom">
+                                                <span class="svg-icon svg-icon-3x svg-icon-success">
+                                                    <svg fill="#0c1c26" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M2,21H8a1,1,0,0,0,0-2H3.071A7.011,7.011,0,0,1,10,13a5.044,5.044,0,1,0-3.377-1.337A9.01,9.01,0,0,0,1,20,1,1,0,0,0,2,21ZM10,5A3,3,0,1,1,7,8,3,3,0,0,1,10,5ZM20.207,9.293a1,1,0,0,0-1.414,0l-6.25,6.25a1.011,1.011,0,0,0-.241.391l-1.25,3.75A1,1,0,0,0,12,21a1.014,1.014,0,0,0,.316-.051l3.75-1.25a1,1,0,0,0,.391-.242l6.25-6.25a1,1,0,0,0,0-1.414Zm-5,8.583-1.629.543.543-1.629L19.5,11.414,20.586,12.5Z"></path></g></svg>
+                                                    <!--end::Svg Icon-->
+                                                </span>
+                                                <span
+                                                    class="d-block text-dark-75 font-weight-bold font-size-h10 mt-2 mb-1">Edit
+                                                    Profile
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <!--end:Item-->
+                                        <!--begin:Item-->
+                                        <div class="col-6">
+                                            <a href="{% url 'login.change_password' %}"
+                                                class="d-block py-6 px-5 text-center bg-hover-light border-right border-bottom">
+                                                <span class="svg-icon svg-icon-3x svg-icon-success">
+                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M2 16C2 13.1716 2 11.7574 2.87868 10.8787C3.75736 10 5.17157 10 8 10H16C18.8284 10 20.2426 10 21.1213 10.8787C22 11.7574 22 13.1716 22 16C22 18.8284 22 20.2426 21.1213 21.1213C20.2426 22 18.8284 22 16 22H8C5.17157 22 3.75736 22 2.87868 21.1213C2 20.2426 2 18.8284 2 16Z" stroke="#0c1c26" stroke-width="1.5"></path> <path d="M6 10V8C6 4.68629 8.68629 2 12 2C15.3137 2 18 4.68629 18 8V10" stroke="#0c1c26" stroke-width="1.5" stroke-linecap="round"></path> <path d="M8 16H8.009M11.991 16H12M15.991 16H16" stroke="#0c1c26" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                                    <!--end::Svg Icon-->
+                                                </span> <span
+                                                    class="d-block text-dark-75 font-weight-bold font-size-h10 mt-2 mb-1">Change
+                                                    Password</span>
+                                            </a>
+                                        </div>
+                                        <!--end:Item-->
+                                        <!--begin:Item-->
+                                        <div class="col-12">
+                                            <a href="{% url 'logout'%}"
+                                                class="d-block py-6 px-5 text-center bg-hover-light border-bottom">
+                                                <span class="svg-icon svg-icon-3x svg-icon-danger">
+                                                    <svg viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M11.75 9.874C11.75 10.2882 12.0858 10.624 12.5 10.624C12.9142 10.624 13.25 10.2882 13.25 9.874H11.75ZM13.25 4C13.25 3.58579 12.9142 3.25 12.5 3.25C12.0858 3.25 11.75 3.58579 11.75 4H13.25ZM9.81082 6.66156C10.1878 6.48991 10.3542 6.04515 10.1826 5.66818C10.0109 5.29121 9.56615 5.12478 9.18918 5.29644L9.81082 6.66156ZM5.5 12.16L4.7499 12.1561L4.75005 12.1687L5.5 12.16ZM12.5 19L12.5086 18.25C12.5029 18.25 12.4971 18.25 12.4914 18.25L12.5 19ZM19.5 12.16L20.2501 12.1687L20.25 12.1561L19.5 12.16ZM15.8108 5.29644C15.4338 5.12478 14.9891 5.29121 14.8174 5.66818C14.6458 6.04515 14.8122 6.48991 15.1892 6.66156L15.8108 5.29644ZM13.25 9.874V4H11.75V9.874H13.25ZM9.18918 5.29644C6.49843 6.52171 4.7655 9.19951 4.75001 12.1561L6.24999 12.1639C6.26242 9.79237 7.65246 7.6444 9.81082 6.66156L9.18918 5.29644ZM4.75005 12.1687C4.79935 16.4046 8.27278 19.7986 12.5086 19.75L12.4914 18.25C9.08384 18.2892 6.28961 15.5588 6.24995 12.1513L4.75005 12.1687ZM12.4914 19.75C16.7272 19.7986 20.2007 16.4046 20.2499 12.1687L18.7501 12.1513C18.7104 15.5588 15.9162 18.2892 12.5086 18.25L12.4914 19.75ZM20.25 12.1561C20.2345 9.19951 18.5016 6.52171 15.8108 5.29644L15.1892 6.66156C17.3475 7.6444 18.7376 9.79237 18.75 12.1639L20.25 12.1561Z" fill="#F64E60"></path> </g></svg>
+                                                    <!--end::Svg Icon-->
+                                                </span> <span
+                                                    class="d-block text-dark-75 font-weight-bold font-size-h10 mt-2 mb-1">Logout</span>
+                                            </a>
+                                        </div>
+                                        <!--end:Item-->
+                                    </div>
+                                    <!--end:Nav-->
+                                </div>
+                                <!--end::Dropdown-->
+                            </div>
+                            <!--end::User-->
+                        </div>
+                        <!--end::Topbar-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Header-->
+                {% block content %}
+                {% endblock %}
+                <!--begin::Footer-->
+                <div class="footer bg-white py-4 d-flex flex-lg-column " id="kt_footer">
+                    <!--begin::Container-->
+                    <div
+                        class=" container-fluid  d-flex flex-column flex-md-row align-items-center justify-content-between">
+                        <!--begin::Copyright-->
+                        <div class="text-dark order-2 order-md-1">
+                            <span class="text-muted font-weight-bold mr-2">2023&copy;</span>
+                            <a href="#" target="_blank" class="text-dark-75 text-hover-primary">ADOT</a>
+                        </div>
+                        <!--end::Copyright-->
+                        <!--begin::Nav-->
+                        <div class="nav nav-dark">
+                        </div>
+                        <!--end::Nav-->
+                    </div>
+                    <!--end::Container-->
+                </div>
+                <!--end::Footer-->
+            </div>
+            <!--end::Wrapper-->
+        </div>
+        <!--end::Page-->
+    </div>
+    <!--end::Main-->
+    <!--begin::Scrolltop-->
+    <div id="kt_scrolltop" class="scrolltop">
+        <span class="svg-icon">
+            <!--begin::Svg Icon | path:assets/media/svg/icons/Navigation/Up-2.svg--><svg
+                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px"
+                viewBox="0 0 24 24" version="1.1">
+                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                    <polygon points="0 0 24 0 24 24 0 24" />
+                    <rect fill="#000000" opacity="0.3" x="11" y="10" width="2" height="10" rx="1" />
+                    <path
+                        d="M6.70710678,12.7071068 C6.31658249,13.0976311 5.68341751,13.0976311 5.29289322,12.7071068 C4.90236893,12.3165825 4.90236893,11.6834175 5.29289322,11.2928932 L11.2928932,5.29289322 C11.6714722,4.91431428 12.2810586,4.90106866 12.6757246,5.26284586 L18.6757246,10.7628459 C19.0828436,11.1360383 19.1103465,11.7686056 18.7371541,12.1757246 C18.3639617,12.5828436 17.7313944,12.6103465 17.3242754,12.2371541 L12.0300757,7.38413782 L6.70710678,12.7071068 Z"
+                        fill="#000000" fill-rule="nonzero" />
+                </g>
+            </svg>
+            <!--end::Svg Icon-->
+        </span>
+    </div>
+    <!--end::Scrolltop-->
+    <script>var HOST_URL = "";</script>
+    <!--begin::Global Config(global config for global JS scripts)-->
+    <script>
+        var KTAppSettings = {
+            "breakpoints": {
+                "sm": 576,
+                "md": 768,
+                "lg": 992,
+                "xl": 1200,
+                "xxl": 1400
+            },
+            "colors": {
+                "theme": {
+                    "base": {
+                        "white": "#ffffff",
+                        "primary": "#3699FF",
+                        "secondary": "#E5EAEE",
+                        "success": "#1BC5BD",
+                        "info": "#8950FC",
+                        "warning": "#FFA800",
+                        "danger": "#F64E60",
+                        "light": "#E4E6EF",
+                        "dark": "#181C32"
+                    },
+                    "light": {
+                        "white": "#ffffff",
+                        "primary": "#E1F0FF",
+                        "secondary": "#EBEDF3",
+                        "success": "#C9F7F5",
+                        "info": "#EEE5FF",
+                        "warning": "#FFF4DE",
+                        "danger": "#FFE2E5",
+                        "light": "#F3F6F9",
+                        "dark": "#D6D6E0"
+                    },
+                    "inverse": {
+                        "white": "#ffffff",
+                        "primary": "#ffffff",
+                        "secondary": "#3F4254",
+                        "success": "#ffffff",
+                        "info": "#ffffff",
+                        "warning": "#ffffff",
+                        "danger": "#ffffff",
+                        "light": "#464E5F",
+                        "dark": "#ffffff"
+                    }
+                },
+                "gray": {
+                    "gray-100": "#F3F6F9",
+                    "gray-200": "#EBEDF3",
+                    "gray-300": "#E4E6EF",
+                    "gray-400": "#D1D3E0",
+                    "gray-500": "#B5B5C3",
+                    "gray-600": "#7E8299",
+                    "gray-700": "#5E6278",
+                    "gray-800": "#3F4254",
+                    "gray-900": "#181C32"
+                }
+            },
+            "font-family": "Poppins"
+        };
+    </script>
+    <!--end::Global Config-->
+</body>
+<!--end::Body-->
+
+</html>

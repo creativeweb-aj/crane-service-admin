@@ -1,0 +1,29 @@
+# Project environment
+ENV=development
+# ENV=production
+
+BASE_URL=http://localhost:8010
+
+
+# Project secret key
+SECRET_KEY='django-insecure-n@dr@+o)w%_)#zba965mn&har^3xl9v#b(6&jr0$tkb&z0h%u3'
+
+# Database local postgres
+DATABASE_ENGINE=django.db.backends.postgresql
+DATABASE_NAME=mcs_db
+DATABASE_USER=postgres
+DATABASE_PASSWORD=12345
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+
+# Database stage MySql
+DATABASE_ENGINE=django.db.backends.mysql
+DATABASE_NAME=adotsoftware$adot_software_db
+DATABASE_USER=adotsoftware
+DATABASE_PASSWORD=Adot12345
+DATABASE_HOST=adotsoftware.mysql.pythonanywhere-services.com
+DATABASE_PORT=3306
+
+# Email detail local
+#EMAIL_HOST_USER=
+#EMAIL_HOST_PASSWORD=
