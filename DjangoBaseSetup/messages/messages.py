@@ -32,6 +32,7 @@ class ValidationMessages(enum.Enum):
         'Password must contain upperchar lowerchar specchar numbers.')
     confirm_password_field_is_required = _('Confirm password field is required.')
     confirm_password_and_new_password_must_match = _('Confirm password and new password must match.')
+    message_field_is_required = _('Message field is required.')
 
     # Permission form messages
     title_field_is_required = _('Title field is required.')

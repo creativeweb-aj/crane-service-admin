@@ -1,3 +1,4 @@
+from apps.customers.models import Message
 from apps.settings.models import Setting
 
 
@@ -25,3 +26,13 @@ class HomeService:
             else:
                 pass
         return data
+
+    @staticmethod
+    def saveMessage(data):
+        message = Message()
+        message.name = data.get('name', None)
+        message.email = data.get('email', None)
+        message.subject = data.get('subject', None)
+        message.message = data.get('message', None)
+        message.save()
+        return True

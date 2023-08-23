@@ -4,6 +4,7 @@ from django.utils.translation import gettext as _
 
 class CommonApiMessages(enum.Enum):
     data_sent_successfully = _('Data sent successfully!')
+    email_sent_successfully = _('Email sent successfully!')
 
 
 class UserApiMessages(enum.Enum):
