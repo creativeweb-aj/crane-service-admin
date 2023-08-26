@@ -171,7 +171,7 @@ def indexTestimonial(request):
 @login_required(login_url='login')
 def addTestimonial(request):
     if request.method == "POST":
-        form = TestimonialForm(request.POST)
+        form = TestimonialForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, CustomerAppMessage.testimonial_has_been_added_successfully.value)
@@ -195,7 +195,7 @@ def updateTestimonial(request, id):
     if not obj:
         return redirect('testimonial.index')
     if request.method == "POST":
-        form = TestimonialForm(request.POST, instance=obj)
+        form = TestimonialForm(request.POST, request.FILES, instance=obj)
         if form.is_valid():
             form.save()
             messages.success(request, CustomerAppMessage.testimonial_has_been_updated_successfully.value)

@@ -3,7 +3,9 @@ from apps.api.modules.HomeApi import api
 
 urlpatterns = [
     # APIs urls
-    path('home/site-details', api.siteDetails, name="HomeApi.api.site_details"),
+    path('home/site-info', api.siteInfo, name="HomeApi.api.site_info"),
+    path('home/working-days', api.workingDays, name="HomeApi.api.working_days"),
+    path('home/social-links', api.socialLinks, name="HomeApi.api.social_links"),
     path('home/about', api.about, name="HomeApi.api.about"),
     path('home/services', api.services, name="HomeApi.api.services"),
     path('home/projects', api.projects, name="HomeApi.api.projects"),

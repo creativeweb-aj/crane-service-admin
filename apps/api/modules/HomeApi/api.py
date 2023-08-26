@@ -22,18 +22,52 @@ from apps.social_page.models import SocialLink
     responses=responseData
 )
 @api_view(['GET'])
-def siteDetails(request):
+def siteInfo(request):
     siteData = HomeService.siteSettingDetail()
-    workingDays = WorkingDay.objects.filter(is_active=True, is_delete=False).order_by('id')
-    workingDaySerializer = WorkingDaySerializer(workingDays, many=True)
-    socialLinks = SocialLink.objects.filter(is_active=True, is_delete=False).order_by('id')
-    socialLinkSerializer = SocialLinkSerializer(socialLinks, many=True)
     resData = dict()
     # Make response data success case
     resData['status'] = Status.success.value
     resData['data'] = {
-        "site_info": siteData,
-        "working_days": workingDaySerializer.data,
+        "site_info": siteData
+    }
+    resData['message'] = CommonApiMessages.data_sent_successfully.value
+    resData['errors'] = []
+    status_code = 200
+    return Response(resData, status=status_code)
+
+
+@swagger_auto_schema(
+    method='get',
+    responses=responseData
+)
+@api_view(['GET'])
+def workingDays(request):
+    workingDaysObj = WorkingDay.objects.filter(is_active=True, is_delete=False).order_by('id')
+    workingDaySerializer = WorkingDaySerializer(workingDaysObj, many=True)
+    resData = dict()
+    # Make response data success case
+    resData['status'] = Status.success.value
+    resData['data'] = {
+        "working_days": workingDaySerializer.data
+    }
+    resData['message'] = CommonApiMessages.data_sent_successfully.value
+    resData['errors'] = []
+    status_code = 200
+    return Response(resData, status=status_code)
+
+
+@swagger_auto_schema(
+    method='get',
+    responses=responseData
+)
+@api_view(['GET'])
+def socialLinks(request):
+    socialLinksObj = SocialLink.objects.filter(is_active=True, is_delete=False).order_by('id')
+    socialLinkSerializer = SocialLinkSerializer(socialLinksObj, many=True)
+    resData = dict()
+    # Make response data success case
+    resData['status'] = Status.success.value
+    resData['data'] = {
         "social_links": socialLinkSerializer.data
     }
     resData['message'] = CommonApiMessages.data_sent_successfully.value
@@ -62,7 +96,7 @@ def about(request):
     resData['data'] = {
         "about": aboutSerializer.data,
         "persons": personSerializer.data,
-        "key_point": keyPointSerializer.data,
+        "key_points": keyPointSerializer.data,
         "our_values": ourValueSerializer.data
     }
     resData['message'] = CommonApiMessages.data_sent_successfully.value
