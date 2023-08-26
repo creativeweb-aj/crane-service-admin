@@ -3,6 +3,7 @@ ENV=development
 # ENV=production
 
 BASE_URL=http://localhost:8010
+# BASE_URL=https://16.170.245.41/
 
 
 # Project secret key
@@ -16,13 +17,13 @@ DATABASE_PASSWORD=12345
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
 
-# Database stage MySql
-DATABASE_ENGINE=django.db.backends.mysql
-DATABASE_NAME=adotsoftware$adot_software_db
-DATABASE_USER=adotsoftware
-DATABASE_PASSWORD=Adot12345
-DATABASE_HOST=adotsoftware.mysql.pythonanywhere-services.com
-DATABASE_PORT=3306
+# Database stage aws postgres
+DATABASE_ENGINE=django.db.backends.postgresql
+DATABASE_NAME=mcs_db
+DATABASE_USER=postgres
+DATABASE_PASSWORD=adot$143136
+DATABASE_HOST=adot-postgres.cet9azvcjyce.eu-north-1.rds.amazonaws.com
+DATABASE_PORT=5432
 
 # Email detail local
 #EMAIL_HOST_USER=adotsoftware@gmail.com
