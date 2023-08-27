@@ -17,6 +17,14 @@ DATABASE_PASSWORD=12345
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
 
+# Database python anywhere postgres
+DATABASE_ENGINE=django.db.backends.mysql
+DATABASE_NAME=mcs_db
+DATABASE_USER=mcsadmin
+DATABASE_PASSWORD=admin$123
+DATABASE_HOST=mcsadmin.mysql.pythonanywhere-services.com
+DATABASE_PORT=3306
+
 # Database stage aws postgres
 DATABASE_ENGINE=django.db.backends.postgresql
 DATABASE_NAME=mcs_db
