@@ -1,4 +1,5 @@
 asgiref==3.5.2
+backports.zoneinfo==0.2.1
 boto3==1.28.35
 botocore==1.31.35
 certifi==2022.9.24
@@ -6,7 +7,7 @@ charset-normalizer==2.1.1
 coreapi==2.3.3
 coreschema==0.0.4
 Django==3.2.18
-django-ckeditor
+django-ckeditor==6.5.1
 django-cors-headers==3.13.0
 django-environ==0.9.0
 django-extensions==3.2.1
@@ -17,6 +18,7 @@ django-storages==1.13.2
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.2.2
 drf-yasg==1.21.5
+gunicorn==21.2.0
 haversine==2.8.0
 idna==3.4
 inflection==0.5.1

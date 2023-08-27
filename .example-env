@@ -3,7 +3,8 @@ ENV=development
 # ENV=production
 
 BASE_URL=http://localhost:8010
-# BASE_URL=https://16.170.245.41/
+# BASE_URL=https://16.170.245.41
+# BASE_URL=https://mahalaxmi-crane-service.onrender.com
 
 
 # Project secret key
