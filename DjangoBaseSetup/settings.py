@@ -22,41 +22,43 @@ env = environ.Env()
 BASE_DIR = Path(__file__).resolve().parent.parent
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# PWA service worker path
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 ENVIRONMENT = env("ENV", default="development")
+
 if ENVIRONMENT == "development":
     DEBUG = True
+    ALLOWED_HOSTS = ['*']
+    CSRF_TRUSTED_ORIGINS = ['*']
+    # PWA service worker path
+    PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
 else:
     DEBUG = False
-
-CORS_ORIGIN_ALLOW_ALL = True
-ALLOWED_HOSTS = ['*']
-
-CSRF_TRUSTED_ORIGINS = ['*']
+    ALLOWED_HOSTS = ['https://mahalaxmi-crane-service.onrender.com']
+    CSRF_TRUSTED_ORIGINS = ['*']
+    # PWA service worker path
+    PWA_SERVICE_WORKER_PATH = "https://mahalaxmi-crane-service.s3.amazonaws.com/static/js/serviceworker.js"
 
 # Application definition
-
 INSTALLED_APPS = [
-                     'django.contrib.admin',
-                     'django.contrib.auth',
-                     'django.contrib.contenttypes',
-                     'django.contrib.sessions',
-                     'django.contrib.messages',
-                     'django.contrib.staticfiles',
-                     'corsheaders',
-                     'templatetags.apps.TemplatetagsConfig',
-                     'rest_framework',
-                     'rest_framework_simplejwt',
-                     'pwa'
-                 ] + DJANGO_APP
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'corsheaders',
+    'templatetags.apps.TemplatetagsConfig',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'pwa'
+] + DJANGO_APP
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -141,16 +143,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-
-STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 if DEBUG:
+    STATIC_URL = '/static/'
     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATIC_URL = "https://mahalaxmi-crane-service.s3.amazonaws.com/static/"
+
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None
 DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800

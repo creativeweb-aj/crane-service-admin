@@ -22,6 +22,7 @@ from DjangoBaseSetup.common_modules.mainService import MainService
 urlpatterns = [
     # PWA
     path('', include('pwa.urls')),
+
     # APIs
     path('api/', include('apps.api.urls')),
 

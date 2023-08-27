@@ -22,7 +22,7 @@ SIMPLE_JWT = {
     'BLACKLIST_AFTER_ROTATION': False,
     'UPDATE_LAST_LOGIN': False,
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': os.environ.get("SECRET_KEY", "django-insecure-ihlwq3k_@^+1%w#ol_-*df6^(*iaf69=-))k**89zh3e+(g3@_"),
+    'SIGNING_KEY': os.environ.get("SECRET_KEY", ""),
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
@@ -52,19 +52,19 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': 'static/img/icon-160x160.png',
+        'src': 'https://mahalaxmi-crane-service.s3.amazonaws.com/static/img/icon-160x160.png',
         'sizes': '160x160'
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': 'static/img/icon-160x160.png',
+        'src': 'https://mahalaxmi-crane-service.s3.amazonaws.com/static/img/icon-160x160.png',
         'sizes': '160x160'
     }
 ]
 PWA_APP_SPLASH_SCREEN = [
     {
-        'src': 'static/img/ADOT.svg',
+        'src': 'https://mahalaxmi-crane-service.s3.amazonaws.com/static/img/ADOT.svg',
         'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
     }
 ]
@@ -77,7 +77,7 @@ AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", '')
 AWS_STORAGE_BUCKET_NAME = 'mahalaxmi-crane-service'
 AWS_S3_REGION_NAME = 'eu-north-1'
 AWS_S3_ADDRESSING_STYLE = "virtual"
-AWS_LOCATION = 'static'
+AWS_LOCATION = 'media'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 AWS_S3_VERITY = True
