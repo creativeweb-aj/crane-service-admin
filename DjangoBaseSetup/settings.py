@@ -40,10 +40,11 @@ if ENVIRONMENT == "development":
     PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
 else:
     DEBUG = False
-    ALLOWED_HOSTS = ['mahalaxmi-crane-service.onrender.com']
+    ALLOWED_HOSTS = ['*']
     CSRF_TRUSTED_ORIGINS = ['*']
     # PWA service worker path
-    PWA_SERVICE_WORKER_PATH = "https://mahalaxmi-crane-service.s3.amazonaws.com/static/js/serviceworker.js"
+    # PWA_SERVICE_WORKER_PATH = "https://mahalaxmi-crane-service.s3.amazonaws.com/static/js/serviceworker.js"
+    PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
 
 # Application definition
 INSTALLED_APPS = [
@@ -152,7 +153,8 @@ if DEBUG:
     STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 else:
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATIC_URL = "https://mahalaxmi-crane-service.s3.amazonaws.com/static/"
+    # STATIC_URL = "https://mahalaxmi-crane-service.s3.amazonaws.com/static/"
+    STATIC_URL = '/static/'
 
 
 DATA_UPLOAD_MAX_NUMBER_FIELDS = None

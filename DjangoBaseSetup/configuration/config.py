@@ -52,19 +52,22 @@ PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
     {
-        'src': 'https://mahalaxmi-crane-service.s3.amazonaws.com/static/img/icon-160x160.png',
+        # 'src': 'https://mahalaxmi-crane-service.s3.amazonaws.com/static/img/icon-160x160.png',
+        'src': '/static/img/icon-160x160.png',
         'sizes': '160x160'
     }
 ]
 PWA_APP_ICONS_APPLE = [
     {
-        'src': 'https://mahalaxmi-crane-service.s3.amazonaws.com/static/img/icon-160x160.png',
+        # 'src': 'https://mahalaxmi-crane-service.s3.amazonaws.com/static/img/icon-160x160.png',
+        'src': '/static/img/icon-160x160.png',
         'sizes': '160x160'
     }
 ]
 PWA_APP_SPLASH_SCREEN = [
     {
-        'src': 'https://mahalaxmi-crane-service.s3.amazonaws.com/static/img/ADOT.svg',
+        # 'src': 'https://mahalaxmi-crane-service.s3.amazonaws.com/static/img/ADOT.svg',
+        'src': '/static/img/ADOT.svg',
         'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
     }
 ]
@@ -72,17 +75,17 @@ PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'en-US'
 
 # AWS S3 Bucket Configurations
-AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", '')
-AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", '')
-AWS_STORAGE_BUCKET_NAME = 'mahalaxmi-crane-service'
-AWS_S3_REGION_NAME = 'eu-north-1'
-AWS_S3_ADDRESSING_STYLE = "virtual"
-AWS_LOCATION = 'media'
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
-AWS_S3_VERITY = True
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
-AWS_S3_OBJECT_PARAMETERS = {
-    'CacheControl': 'max-age=86400',
-}
+# AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID", '')
+# AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY", '')
+# AWS_STORAGE_BUCKET_NAME = 'mahalaxmi-crane-service'
+# AWS_S3_REGION_NAME = 'eu-north-1'
+# AWS_S3_ADDRESSING_STYLE = "virtual"
+# AWS_LOCATION = 'media'
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+# AWS_S3_VERITY = True
+# DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl': 'max-age=86400',
+# }
