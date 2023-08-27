@@ -40,7 +40,7 @@ if ENVIRONMENT == "development":
     PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
 else:
     DEBUG = False
-    ALLOWED_HOSTS = ['*']
+    ALLOWED_HOSTS = ['mcsadmin.pythonanywhere.com']
     CSRF_TRUSTED_ORIGINS = ['*']
     # PWA service worker path
     # PWA_SERVICE_WORKER_PATH = "https://mahalaxmi-crane-service.s3.amazonaws.com/static/js/serviceworker.js"
