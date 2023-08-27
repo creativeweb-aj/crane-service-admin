@@ -19,7 +19,7 @@ DATABASE_PORT=5432
 
 # Database python anywhere postgres
 DATABASE_ENGINE=django.db.backends.mysql
-DATABASE_NAME=mcs_db
+DATABASE_NAME=mcsadmin$mcs_db
 DATABASE_USER=mcsadmin
 DATABASE_PASSWORD=admin$123
 DATABASE_HOST=mcsadmin.mysql.pythonanywhere-services.com
