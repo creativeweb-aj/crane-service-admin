@@ -25,6 +25,15 @@ DATABASE_PASSWORD=adot$143136
 DATABASE_HOST=adot-postgres.cet9azvcjyce.eu-north-1.rds.amazonaws.com
 DATABASE_PORT=5432
 
+
+# Database stage render postgres
+DATABASE_ENGINE=django.db.backends.postgresql
+DATABASE_NAME=mcs_db
+DATABASE_USER=adot
+DATABASE_PASSWORD=yTufS1nYPBHIJqS5JObBKcdedL8yyvw4
+DATABASE_HOST=dpg-cjlgqf5k5scs73f405hg-a.oregon-postgres.render.com
+DATABASE_PORT=5432
+
 # Email detail local
 #EMAIL_HOST_USER=adotsoftware@gmail.com
 #EMAIL_HOST_PASSWORD=ltjnfyrsddqsomcy
