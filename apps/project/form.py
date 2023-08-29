@@ -27,10 +27,21 @@ class CraneForm(forms.ModelForm):
             'required': ValidationMessages.email_body_field_is_required.value
         }
     )
+    image = forms.ImageField(
+        required=False,
+        label='Image ',
+        initial='',
+        widget=forms.FileInput(
+            attrs={'class': "form-control form-control-solid form-control-lg",
+                   "accept": "image/png, image/gif, image/jpeg,image/jpg"}),
+        error_messages={
+            'required': ValidationMessages.image_field_is_required.value
+        }
+    )
 
     class Meta:
         model = Crane
-        fields = ['name', 'description']
+        fields = ['image', 'name', 'description']
 
     def clean_name(self):
         data = self.cleaned_data
@@ -44,6 +55,13 @@ class CraneForm(forms.ModelForm):
         value = data.get('description')
         if value == "" or value is None:
             raise ValidationError(self.fields['description'].error_messages['required'])
+        return value
+
+    def clean_image(self):
+        data = self.cleaned_data
+        value = data.get('image', None)
+        # if value == "" or value is None:
+        #     raise ValidationError(self.fields['image'].error_messages['required'])
         return value
 
 

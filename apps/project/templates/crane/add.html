@@ -36,7 +36,7 @@
 	<div class="d-flex flex-column-fluid">
 		<!--begin::Container-->
 		<div class=" container ">
-			<form action="{% url 'crane.add' %}" method="POST" class="mws-form" autocomplete="off">
+			<form action="{% url 'crane.add' %}" method="POST" class="mws-form" enctype="multipart/form-data" autocomplete="off">
 				{% csrf_token %}
 				<div class="card">
 					<div class="card-body">

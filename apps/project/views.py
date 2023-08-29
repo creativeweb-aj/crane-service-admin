@@ -82,7 +82,7 @@ def craneIndex(request):
 @login_required(login_url='login')
 def addCrane(request):
     if request.method == "POST":
-        form = CraneForm(request.POST)
+        form = CraneForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             messages.success(request, ProjectAppMessages.crane_has_been_updated_successfully.value)
@@ -106,7 +106,7 @@ def updateCrane(request, id):
     if not crane:
         return redirect('crane.index')
     if request.method == "POST":
-        form = CraneForm(request.POST, instance=crane)
+        form = CraneForm(request.POST, request.FILES, instance=crane)
         if form.is_valid():
             form.save()
             messages.success(request, ProjectAppMessages.crane_has_been_updated_successfully.value)

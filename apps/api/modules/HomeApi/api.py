@@ -8,10 +8,10 @@ from DjangoBaseSetup.common_modules.mainService import Status
 from apps.api.ApiMessages import CommonApiMessages
 from apps.api.modules.HomeApi.serializer import WorkingDaySerializer, SocialLinkSerializer, AboutSerializer, \
     PersonSerializer, KeyPointSerializer, OurValueSerializer, ServiceSerializer, ProjectSerializer, \
-    TestimonialSerializer, MessageSerializer
+    TestimonialSerializer, MessageSerializer, CraneSerializer
 from apps.api.modules.HomeApi.service import HomeService
 from apps.customers.models import Message, Testimonial
-from apps.project.models import Project
+from apps.project.models import Project, Crane
 from apps.service.models import Service
 from apps.settings.models import Setting
 from apps.social_page.models import SocialLink
@@ -138,6 +138,26 @@ def projects(request):
     resData['status'] = Status.success.value
     resData['data'] = {
         "projects": projectSerializer.data
+    }
+    resData['message'] = CommonApiMessages.data_sent_successfully.value
+    resData['errors'] = []
+    status_code = 200
+    return Response(resData, status=status_code)
+
+
+@swagger_auto_schema(
+    method='get',
+    responses=responseData
+)
+@api_view(['GET'])
+def cranes(request):
+    cranesObj = Crane.objects.filter(is_active=True, is_delete=False).order_by('id')
+    craneSerializer = CraneSerializer(cranesObj, many=True)
+    resData = dict()
+    # Make response data success case
+    resData['status'] = Status.success.value
+    resData['data'] = {
+        "cranes": craneSerializer.data
     }
     resData['message'] = CommonApiMessages.data_sent_successfully.value
     resData['errors'] = []

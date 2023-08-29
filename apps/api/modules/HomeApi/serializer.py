@@ -4,7 +4,7 @@ from DjangoBaseSetup.messages.messages import ValidationMessages
 from apps.about.models import WorkingDay, About, Person, KeyPoint, OurValue
 from apps.api.modules.HomeApi.service import HomeService
 from apps.customers.models import Message, Testimonial
-from apps.project.models import Project
+from apps.project.models import Project, Crane
 from apps.service.models import Service
 from apps.social_page.models import SocialLink
 
@@ -50,6 +50,12 @@ class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         fields = ['id', 'name', 'description', 'image', 'icon']
+
+
+class CraneSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Crane
+        fields = ['id', 'name', 'description', 'image']
 
 
 class ProjectSerializer(serializers.ModelSerializer):

@@ -6,6 +6,7 @@ from DjangoBaseSetup.common_modules.models import CommonModels
 class Crane(CommonModels):
     name = models.CharField(max_length=100, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    image = models.ImageField(upload_to='crane_images/', blank=True, null=True)
     is_active = models.BooleanField(default=True, blank=True, null=True)
     is_delete = models.BooleanField(default=False, blank=True, null=True)
 
