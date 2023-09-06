@@ -121,7 +121,7 @@
 														</a>
 													</th>
 													<th class="sorting">
-                                                        <a href="?page={{ page }}&order_by=is_active&direction={% if direction == 'ASC' and order_by == 'is_active' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+                                                        <a href="?page={{ page }}&order_by=is_sent&direction={% if direction == 'ASC' and order_by == 'is_sent' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
                                                             Status
                                                         </a>
                                                     </th>
@@ -160,13 +160,13 @@
 																</div>
 															</td>
 															 <td>
-                                                                {% if data.is_active %}
+                                                                {% if data.is_sent %}
                                                                     <span
-                                                                        class="label label-lg label-light-success label-inline">Activated
+                                                                        class="label label-lg label-light-success label-inline">Sent
                                                                     </span>
                                                                 {% else %}
                                                                     <span
-                                                                        class="label label-lg label-light-danger label-inline">Deactivated
+                                                                        class="label label-lg label-light-danger label-inline">Not Sent
                                                                     </span>
                                                                 {% endif %}
                                                             </td>
