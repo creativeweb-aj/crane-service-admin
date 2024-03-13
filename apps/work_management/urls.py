@@ -22,5 +22,10 @@ urlpatterns = [
     path('work/update/<int:id>', views.updateWork, name="work.update"),
     path('work/status/<int:id>', views.statusWork, name="work.status"),
     path('work/complete-status/<int:id>', views.statusWorkComplete, name="work.status-complete"),
-    path('work/delete/<int:id>', views.deleteWork, name="work.delete")
+    path('work/delete/<int:id>', views.deleteWork, name="work.delete"),
+    # Payment Urls
+    path('payment/', views.indexPayment, name="payment.index"),
+    path('payment/add', views.addPayment, name="payment.add"),
+    path('payment/update/<int:id>', views.updatePayment, name="payment.update"),
+    path('payment/delete/<int:id>', views.deletePayment, name="payment.delete"),
 ]

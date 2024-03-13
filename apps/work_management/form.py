@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from apps.users.models import User
-from apps.work_management.models import Staff, Customer, Work
+from apps.work_management.models import Staff, Customer, Work, Payment
 
 
 class StaffForm(forms.ModelForm):
@@ -292,6 +292,118 @@ class WorkForm(forms.ModelForm):
         data = self.cleaned_data['amount']
         if not data:
             raise ValidationError(self.fields['amount'].error_messages['required'])
+        return data
+
+    def clean_note(self):
+        data = self.cleaned_data['note']
+        # if not data:
+        #     raise ValidationError(self.fields['note'].error_messages['required'])
+        return data
+
+
+class PaymentForm(forms.ModelForm):
+    sender_name = forms.CharField(
+        max_length=100,
+        required=False,
+        label='Sender Name',
+        widget=forms.TextInput(
+            attrs={'class': "form-control form-control-solid form-control-lg", 'placeholder': 'Sender Name'}
+        ),
+        error_messages={
+            'required': "Sender name is required"
+        }
+    )
+    work = forms.ModelChoiceField(
+        queryset=Work.objects.filter(is_complete=False, is_delete=False),
+        required=False,
+        label='Work',
+        widget=forms.Select(
+            attrs={'class': "form-control form-control-solid form-control-lg"}
+        ),
+        error_messages={
+            'required': "Work is required"
+        }
+    )
+    receiver = forms.ModelChoiceField(
+        queryset=User.objects.all(),
+        required=False,
+        label='Receiver',
+        widget=forms.Select(
+            attrs={'class': "form-control form-control-solid form-control-lg"}
+        ),
+        error_messages={
+            'required': "Receiver is required"
+        }
+    )
+    amount = forms.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        required=False,
+        label='Amount',
+        widget=forms.NumberInput(
+            attrs={'class': "form-control form-control-solid form-control-lg", 'placeholder': 'Amount'}
+        ),
+        error_messages={
+            'required': "Amount is required"
+        }
+    )
+    payment_type = forms.ChoiceField(
+        choices=Payment.PAYMENT_TYPE_CHOICES,
+        required=False,
+        label='Payment Type',
+        widget=forms.Select(
+            attrs={'class': "form-control form-control-solid form-control-lg"}
+        ),
+        error_messages={
+            'required': "Payment type is required"
+        }
+    )
+    note = forms.CharField(
+        required=False,
+        label='Note',
+        widget=forms.Textarea(
+            attrs={'class': "form-control form-control-solid form-control-lg", 'rows': 3, 'placeholder': 'Note'}
+        ),
+        error_messages={
+            'required': "Note is required"
+        }
+    )
+
+    class Meta:
+        model = Payment
+        fields = ['sender_name', 'work', 'receiver', 'amount', 'payment_type', 'note']
+
+    def __init__(self, *args, **kwargs):
+        super(PaymentForm, self).__init__(*args, **kwargs)
+
+    def clean_sender_name(self):
+        data = self.cleaned_data['sender_name']
+        if not data:
+            raise ValidationError(self.fields['sender_name'].error_messages['required'])
+        return data
+
+    def clean_work(self):
+        data = self.cleaned_data['work']
+        if not data:
+            raise ValidationError(self.fields['work'].error_messages['required'])
+        return data
+
+    def clean_receiver(self):
+        data = self.cleaned_data['receiver']
+        if not data:
+            raise ValidationError(self.fields['receiver'].error_messages['required'])
+        return data
+
+    def clean_amount(self):
+        data = self.cleaned_data['amount']
+        if not data:
+            raise ValidationError(self.fields['amount'].error_messages['required'])
+        return data
+
+    def clean_payment_type(self):
+        data = self.cleaned_data['payment_type']
+        if not data:
+            raise ValidationError(self.fields['payment_type'].error_messages['required'])
         return data
 
     def clean_note(self):

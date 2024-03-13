@@ -61,3 +61,23 @@ class Work(CommonModels):
     def __str__(self):
         return self.work_title
 
+
+class Payment(CommonModels):
+    PAYMENT_TYPE_CHOICES = [
+        ('cash', 'Cash'),
+        ('bank_transfer', 'Bank Transfer'),
+        ('online', 'Online'),
+    ]
+    sender_name = models.CharField(max_length=100, blank=True, null=True)  # Suggested name for 'sender'
+    work = models.ForeignKey(Work, on_delete=models.CASCADE, blank=True, null=True)
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    payment_type = models.CharField(max_length=13, choices=PAYMENT_TYPE_CHOICES, blank=True, null=True)
+    note = models.TextField(blank=True, null=True)
+    is_delete = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'payment'
+
+    def __str__(self):
+        return self.sender_name
