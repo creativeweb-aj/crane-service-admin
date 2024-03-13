@@ -21,3 +21,18 @@ class Staff(CommonModels):
 
     def __str__(self):
         return self.user
+
+
+class Customer(CommonModels):
+    customer_name = models.CharField(max_length=100, blank=True, null=True)
+    customer_email = models.EmailField(blank=True, null=True)
+    customer_mobile = models.CharField(max_length=15, blank=True, null=True)
+    customer_address = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
+    is_delete = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'customer'
+
+    def __str__(self):
+        return self.customer_name

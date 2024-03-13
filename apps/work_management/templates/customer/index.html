@@ -34,7 +34,7 @@
 	<div class="d-flex flex-column-fluid">
 		<!--begin::Container-->
 		<div class=" container ">
-			<form action="{% url 'staff.index' %}" class="kt-form kt-form--fit mb-0" autocomplete="off">
+			<form action="{% url 'customer.index' %}" class="kt-form kt-form--fit mb-0" autocomplete="off">
 				<div class="row">
 					<div class="col-12">
 						<div class="card card-custom card-stretch card-shadowless">
@@ -42,8 +42,8 @@
 								<div class="card-title">
 								</div>
 								<div class="card-toolbar">
-									{% if 'staff.add' in actions or isAdmin %}
-                                        <a href="{% url 'staff.add' %}" class="btn btn-primary">Add New
+									{% if 'customer.add' in actions or isAdmin %}
+                                        <a href="{% url 'customer.add' %}" class="btn btn-primary">Add New
                                             {{model_name_singular}} </a>
                                     {% endif %}
 								</div>
@@ -58,20 +58,26 @@
 												<tr class="text-uppercase">
 													<th class="sorting">
 														<a
-															href="?page={{ page }}&order_by=user&direction={% if direction == 'ASC' and order_by == 'user' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
-															Staff Name
+															href="?page={{ page }}&order_by=customer_name&direction={% if direction == 'ASC' and order_by == 'customer_name' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Customer Name
 														</a>
 													</th>
 													<th class="sorting">
 														<a
-															href="?page={{ page }}&order_by=staff_type&direction={% if direction == 'ASC' and order_by == 'staff_type' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
-															Staff Type
+															href="?page={{ page }}&order_by=customer_email&direction={% if direction == 'ASC' and order_by == 'customer_email' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Customer Email
 														</a>
 													</th>
 													<th class="sorting">
 														<a
-															href="?page={{ page }}&order_by=salary&direction={% if direction == 'ASC' and order_by == 'salary' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
-															Salary
+															href="?page={{ page }}&order_by=customer_mobile&direction={% if direction == 'ASC' and order_by == 'customer_mobile' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Customer Mobile
+														</a>
+													</th>
+													<th class="sorting">
+														<a
+															href="?page={{ page }}&order_by=customer_address&direction={% if direction == 'ASC' and order_by == 'customer_address' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Customer Address
 														</a>
 													</th>
 													<th class="sorting">
@@ -96,17 +102,22 @@
 														<tr>
 															<td>
 																<div class="text-dark-75 mb-1 font-size-lg">
-																	{{result.user.first_name | title}} {{result.user.last_name | title}}
+																	{{result.customer_name | title}}
 																</div>
 															</td>
 															<td>
 																<div class="text-dark-75 mb-1 font-size-lg">
-																	{{result.staff_type | title}}
+																	{{result.customer_email}}
 																</div>
 															</td>
 															<td>
 																<div class="text-dark-75 mb-1 font-size-lg">
-																	{{result.salary}}
+																	{{result.customer_mobile}}
+																</div>
+															</td>
+															<td>
+																<div class="text-dark-75 mb-1 font-size-lg">
+																	{{result.customer_address}}
 																</div>
 															</td>
 															<td>
@@ -126,10 +137,10 @@
                                                                 {% endif %}
                                                             </td>
 															<td class="text-right pr-2">
-																{% if 'staff.status' in actions or isAdmin %}
+																{% if 'customer.status' in actions or isAdmin %}
                                                                     {% if data.is_active == 1%}
                                                                         <a title="Click To Deactivate"
-                                                                            href="{% url 'staff.status' result.id  %}"
+                                                                            href="{% url 'customer.status' result.id  %}"
                                                                             class="btn btn-icon btn-light btn-hover-danger btn-sm status_any_item"
                                                                             data-toggle="tooltip" data-placement="top"
                                                                             data-container="body" data-boundary="window"
@@ -140,7 +151,7 @@
                                                                         </a>
                                                                     {% else %}
                                                                         <a title="Click To Activate"
-                                                                            href="{% url 'staff.status' result.id %}"
+                                                                            href="{% url 'customer.status' result.id %}"
                                                                             class="btn btn-icon btn-light btn-hover-success btn-sm status_any_item"
                                                                             data-toggle="tooltip" data-placement="top"
                                                                             data-container="body" data-boundary="window"
@@ -151,8 +162,8 @@
                                                                         </a>
                                                                     {% endif %}
                                                                 {% endif %}
-																{% if 'staff.update' in actions or isAdmin %}
-																<a href="{% url 'staff.update' result.id %}"
+																{% if 'customer.update' in actions or isAdmin %}
+																<a href="{% url 'customer.update' result.id %}"
                                                                     class="btn btn-icon btn-light btn-hover-primary btn-sm"
                                                                     data-toggle="tooltip" data-placement="top"
                                                                     data-container="body" data-boundary="window" title=""
@@ -162,8 +173,8 @@
                                                                     </span>
                                                                 </a>
 																{% endif %}
-																{% if 'staff.delete' in actions or isAdmin %}
-                                                                    <a href="{% url 'staff.delete' result.id %}"
+																{% if 'customer.delete' in actions or isAdmin %}
+                                                                    <a href="{% url 'customer.delete' result.id %}"
                                                                         class="btn btn-icon btn-light btn-hover-danger btn-sm confirmDelete"
                                                                         data-toggle="tooltip" data-placement="top"
                                                                         data-container="body" data-boundary="window" title=""
