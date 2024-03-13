@@ -1,0 +1,218 @@
+{% extends "default.html" %}
+{% load static %}
+{% load site_tags %}
+{% block content %}
+<!--begin::Content-->
+<div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
+	<!--begin::Subheader-->
+	<div class="subheader py-2 py-lg-4  subheader-solid " id="kt_subheader">
+		<div class=" container-fluid  d-flex align-items-center justify-content-between flex-wrap flex-sm-nowrap">
+			<!--begin::Info-->
+			<div class="d-flex align-items-center flex-wrap mr-1">
+				<!--begin::Page Heading-->
+				<div class="d-flex align-items-baseline flex-wrap mr-5">
+					<!--begin::Page Title-->
+					<h5 class="text-dark font-weight-bold my-1 mr-5">
+						{{model_name_plural}}
+					</h5>
+					<!--end::Page Title-->
+					<!--begin::Breadcrumb-->
+					<ul class="breadcrumb breadcrumb-transparent breadcrumb-dot font-weight-bold p-0 my-2 font-size-sm">
+						<li class="breadcrumb-item">
+							<a href="{% url 'dashboard.index'%}" class="text-muted">Dashboard</a>
+						</li>
+					</ul>
+					<!--end::Breadcrumb-->
+				</div>
+				<!--end::Page Heading-->
+			</div>
+			<!--end::Info-->
+		</div>
+	</div>
+	<!--end::Subheader-->
+	<!--begin::Entry-->
+	<div class="d-flex flex-column-fluid">
+		<!--begin::Container-->
+		<div class=" container ">
+			<form action="{% url 'expense.index' %}" class="kt-form kt-form--fit mb-0" autocomplete="off">
+				<div class="row">
+					<div class="col-12">
+						<div class="card card-custom card-stretch card-shadowless">
+							<div class="card-header">
+								<div class="card-title">
+								</div>
+								<div class="card-toolbar">
+									{% if 'expense.add' in actions or isAdmin %}
+                                        <a href="{% url 'expense.add' %}" class="btn btn-primary">Add New
+                                            {{model_name_singular}} </a>
+                                    {% endif %}
+								</div>
+							</div>
+							<div class="card-body">
+								<div class="dataTables_wrapper ">
+									<div class="table-responsive">
+										<table
+											class="table dataTable table-head-custom table-head-bg table-borderless table-vertical-center"
+											id="taskTable">
+											<thead>
+												<tr class="text-uppercase">
+													<th class="sorting">
+														<a
+															href="?page={{ page }}&order_by=staff&direction={% if direction == 'ASC' and order_by == 'staff' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Staff Name
+														</a>
+													</th>
+													<th class="sorting">
+														<a
+															href="?page={{ page }}&order_by=amount&direction={% if direction == 'ASC' and order_by == 'amount' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Amount
+														</a>
+													</th>
+													<th class="sorting">
+														<a
+															href="?page={{ page }}&order_by=payment_type&direction={% if direction == 'ASC' and order_by == 'payment_type' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Payment Type
+														</a>
+													</th>
+													<th class="sorting">
+														<a
+															href="?page={{ page }}&order_by=note&direction={% if direction == 'ASC' and order_by == 'note' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Note
+														</a>
+													</th>
+													<th class="sorting">
+														<a
+															href="?page={{ page }}&order_by=updated_at&direction={% if direction == 'ASC' and order_by == 'updated_at' %}DESC{% else %}ASC{% endif %}{% if query_string != '' %}&{{query_string}}{% endif %}">
+															Updated On
+														</a>
+													</th>
+													<th class="text-right">
+														Action
+													</th>
+												</tr>
+											</thead>
+											<tbody>
+												{% if results %}
+													{%for result in results%}
+														<tr>
+															<td>
+																<div class="text-dark-75 mb-1 font-size-lg">
+																	{{result.staff.user.first_name}} {{result.staff.user.last_name}}
+																</div>
+															</td>
+															<td>
+																<div class="text-dark-75 mb-1 font-size-lg">
+																	{{result.amount}}
+																</div>
+															</td>
+															<td>
+																<div class="text-dark-75 mb-1 font-size-lg">
+																	{{result.payment_type}}
+																</div>
+															</td>
+															<td>
+																<div class="text-dark-75 mb-1 font-size-lg">
+																	{{result.note}}
+																</div>
+															</td>
+															<td>
+																<div class="text-dark-75 mb-1 font-size-lg">
+																	{{result.updated_at |date:"m-d-Y" }}
+																</div>
+															</td>
+															<td class="text-right pr-2">
+																{% if 'expense.update' in actions or isAdmin %}
+																<a href="{% url 'expense.update' result.id %}"
+                                                                    class="btn btn-icon btn-light btn-hover-primary btn-sm"
+                                                                    data-toggle="tooltip" data-placement="top"
+                                                                    data-container="body" data-boundary="window" title=""
+                                                                    data-original-title="Edit">
+                                                                    <span class="svg-icon svg-icon-md svg-icon-primary">
+                                                                        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.9445 9.1875L14.9445 5.1875M18.9445 9.1875L13.946 14.1859C13.2873 14.8446 12.4878 15.3646 11.5699 15.5229C10.6431 15.6828 9.49294 15.736 8.94444 15.1875C8.39595 14.639 8.44915 13.4888 8.609 12.562C8.76731 11.6441 9.28735 10.8446 9.946 10.1859L14.9445 5.1875M18.9445 9.1875C18.9445 9.1875 21.9444 6.1875 19.9444 4.1875C17.9444 2.1875 14.9445 5.1875 14.9445 5.1875M20.5 12C20.5 18.5 18.5 20.5 12 20.5C5.5 20.5 3.5 18.5 3.5 12C3.5 5.5 5.5 3.5 12 3.5" stroke="#3699FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                                                    </span>
+                                                                </a>
+																{% endif %}
+																{% if 'expense.delete' in actions or isAdmin %}
+                                                                    <a href="{% url 'expense.delete' result.id %}"
+                                                                        class="btn btn-icon btn-light btn-hover-danger btn-sm confirmDelete"
+                                                                        data-toggle="tooltip" data-placement="top"
+                                                                        data-container="body" data-boundary="window" title=""
+                                                                        data-original-title="Delete">
+                                                                        <span class="svg-icon svg-icon-md svg-icon-danger">
+                                                                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M10 12V17" stroke="#F64E60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 12V17" stroke="#F64E60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M4 7H20" stroke="#F64E60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M6 10V18C6 19.6569 7.34315 21 9 21H15C16.6569 21 18 19.6569 18 18V10" stroke="#F64E60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9 5C9 3.89543 9.89543 3 11 3H13C14.1046 3 15 3.89543 15 5V7H9V5Z" stroke="#F64E60" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+                                                                        </span>
+                                                                    </a>
+                                                                {% endif %}
+															</td>
+														</tr>
+													{% endfor %}
+												{% else %}
+												<tr>
+													<td colspan="5" style="text-align:center;">
+														Record not found.
+													</td>
+												</tr>
+												{% endif %}
+											</tbody>
+										</table>
+									</div>
+									{% include "paginations.html" %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!--end::Container-->
+	</div>
+	<!--end::Entry-->
+</div>
+<!--end::Content-->
+
+<script>
+	$(document).ready(function () {
+		$(".confirmDelete").click(function (e) {
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			Swal.fire({
+				title: "Are you sure?",
+				text: "Want to delete this ?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "Yes, delete it",
+				cancelButtonText: "No, cancel",
+				reverseButtons: true
+			}).then(function (result) {
+				if (result.value) {
+					window.location.replace(url);
+				} 
+			});
+			e.preventDefault();
+		});
+
+		$(".status_any_item").click(function (e) {
+			e.stopImmediatePropagation();
+			url = $(this).attr('href');
+			Swal.fire({
+				title: "Are you sure?",
+				text: "Want to change status this ?",
+				icon: "warning",
+				showCancelButton: true,
+				confirmButtonText: "Yes, change it",
+				cancelButtonText: "No, cancel",
+				reverseButtons: true
+			}).then(function (result) {
+				if (result.value) {
+					window.location.replace(url);
+				}
+			});
+			e.preventDefault();
+		});
+	});
+
+	function page_limit() {
+		$("form").submit();
+	}
+</script>
+{% endblock %}

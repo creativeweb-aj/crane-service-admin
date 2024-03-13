@@ -28,4 +28,9 @@ urlpatterns = [
     path('payment/add', views.addPayment, name="payment.add"),
     path('payment/update/<int:id>', views.updatePayment, name="payment.update"),
     path('payment/delete/<int:id>', views.deletePayment, name="payment.delete"),
+    # Expense Urls
+    path('expense/', views.indexExpense, name="expense.index"),
+    path('expense/add', views.addExpense, name="expense.add"),
+    path('expense/update/<int:id>', views.updateExpense, name="expense.update"),
+    path('expense/delete/<int:id>', views.deleteExpense, name="expense.delete"),
 ]

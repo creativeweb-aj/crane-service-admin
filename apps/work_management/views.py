@@ -4,8 +4,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from DjangoBaseSetup.common_modules.mainService import MainService
-from apps.work_management.form import StaffForm, CustomerForm, WorkForm, PaymentForm
-from apps.work_management.models import Staff, Customer, Work, Payment
+from apps.work_management.form import StaffForm, CustomerForm, WorkForm, PaymentForm, ExpenseForm
+from apps.work_management.models import Staff, Customer, Work, Payment, Expense
 
 STAFF_MODEL_NAME_SINGULAR = 'Staff'
 STAFF_MODEL_NAME_PLURAL = 'Staffs'
@@ -553,7 +553,7 @@ def addPayment(request):
     context = {
         "form": form,
         'model_name_singular': PAYMENT_MODEL_NAME_SINGULAR,
-        'model_name_plural': CUSTOMER_MODEL_NAME_PLURAL
+        'model_name_plural': PAYMENT_MODEL_NAME_PLURAL
     }
     return render(request, "payment/add.html", context)
 
@@ -600,3 +600,130 @@ def deletePayment(request, id):
     obj.save()
     messages.success(request, "Payment deleted successfully")
     return redirect('payment.index')
+
+
+EXPENSE_MODEL_NAME_SINGULAR = 'Expense'
+EXPENSE_MODEL_NAME_PLURAL = 'Expenses'
+
+
+@login_required(login_url='login')
+def indexExpense(request):
+    DB = Expense.objects.filter(is_delete=False)
+
+    orderBy = request.GET.get('order_by', "created_at")
+    direction = request.GET.get('direction', "DESC")
+    if direction == "DESC":
+        DB = DB.order_by("-" + orderBy).all()
+    else:
+        DB = DB.order_by(orderBy).all()
+
+    # Create main service instance with request
+    service = MainService(request)
+    totalRecord = DB.count()
+    # get page record data from service
+    # Get page size value
+    recordPerPage = service.getPageRecordSize()
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(DB, recordPerPage)
+    try:
+        results = paginator.page(page)
+    except PageNotAnInteger:
+        results = paginator.page(1)
+    except EmptyPage:
+        results = paginator.page(paginator.num_pages)
+    pageStart = results.start_index()
+    pageEnd = results.end_index()
+
+    # Get page range
+    pageRange = service.getPageRange(results, paginator)
+
+    searchingVariables = request.GET
+    queryString = searchingVariables.copy()
+    if 'page' in queryString:
+        queryString.pop("page")
+    if 'direction' in queryString:
+        queryString.pop("direction")
+    if 'order_by' in queryString:
+        queryString.pop("order_by")
+    queryString = urlencode(queryString)
+
+    context = {
+        'results': results,
+        'page_start': pageStart,
+        'page_end': pageEnd,
+        'total_record': totalRecord,
+        'page_size': recordPerPage,
+        'page': page,
+        'page_range': pageRange,
+        'order_by': orderBy,
+        'direction': direction,
+        'searching_variables': searchingVariables,
+        'query_string': queryString,
+        'model_name_singular': EXPENSE_MODEL_NAME_SINGULAR,
+        'model_name_plural': EXPENSE_MODEL_NAME_PLURAL
+    }
+    return render(request, "expense/index.html", context)
+
+
+@login_required(login_url='login')
+def addExpense(request):
+    if request.method == "POST":
+        form = ExpenseForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Expense added successfully")
+            return redirect('expense.index')
+        else:
+            for field in form.errors:
+                form[field].field.widget.attrs['class'] += ' is-invalid'
+    else:
+        form = ExpenseForm()
+    context = {
+        "form": form,
+        'model_name_singular': EXPENSE_MODEL_NAME_SINGULAR,
+        'model_name_plural': EXPENSE_MODEL_NAME_PLURAL
+    }
+    return render(request, "expense/add.html", context)
+
+
+@login_required(login_url='login')
+def updateExpense(request, id):
+    obj = Expense.objects.get(id=id)
+    if not obj:
+        return redirect('expense.index')
+    if request.method == "POST":
+        form = ExpenseForm(request.POST, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Expense updated successfully")
+            return redirect('expense.index')
+        else:
+            for field in form.errors:
+                form[field].field.widget.attrs['class'] += ' is-invalid'
+    else:
+        data = {
+            "staff": obj.staff,
+            "amount": obj.amount,
+            "payment_type": obj.payment_type,
+            "note": obj.note
+        }
+        form = ExpenseForm(initial=data)
+    context = {
+        'form': form,
+        'data': obj,
+        'model_name_singular': EXPENSE_MODEL_NAME_SINGULAR,
+        'model_name_plural': EXPENSE_MODEL_NAME_PLURAL
+    }
+    return render(request, 'expense/edit.html', context)
+
+
+@login_required(login_url='login')
+def deleteExpense(request, id):
+    obj = Expense.objects.get(id=id)
+    if not obj:
+        return redirect('expense.index')
+    obj.is_delete = True
+    obj.save()
+    messages.success(request, "Expense deleted successfully")
+    return redirect('expense.index')

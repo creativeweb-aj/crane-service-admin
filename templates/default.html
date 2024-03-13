@@ -189,7 +189,7 @@
                                                     </li>
                                                     {% for sub_menu in menu.sub_modules %}
                                                         {% if sub_menu.sub_module_path == 'settings.prefix' %}
-                                                            {% if sub_menu.sub_module_order == 25 %}
+                                                            {% if sub_menu.sub_module_order == 31 %}
                                                                 {% with urlName="site" %}
                                                                     <li class="menu-item {% if currentUrl in sub_menu.sub_module_segment %} menu-item-active {% endif %} ">
                                                                         <a href="{% url sub_menu.sub_module_path urlName %}" class="menu-link">
@@ -201,7 +201,7 @@
                                                                         </a>
                                                                     </li>
                                                                 {% endwith %}
-                                                            {% elif sub_menu.sub_module_order == 26 %}
+                                                            {% elif sub_menu.sub_module_order == 32 %}
                                                                 {% with urlName="reading" %}
                                                                     <li class="menu-item {% if currentUrl in sub_menu.sub_module_segment %} menu-item-active {% endif %} ">
                                                                         <a href="{% url sub_menu.sub_module_path urlName %}" class="menu-link">

@@ -18,7 +18,7 @@ MODEL_NAME_PLURAL = 'Users'
 
 @login_required(login_url='login')
 def index(request):
-    DB = User.objects.filter(is_delete=0, user_role_id=2)
+    DB = User.objects.filter(is_delete=False)
 
     if request.GET.get('id'):
         _id = request.GET.get('id')

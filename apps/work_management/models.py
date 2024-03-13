@@ -81,3 +81,22 @@ class Payment(CommonModels):
 
     def __str__(self):
         return self.sender_name
+
+
+class Expense(CommonModels):
+    PAYMENT_TYPE_CHOICES = [
+        ('cash', 'Cash'),
+        ('bank_transfer', 'Bank Transfer'),
+        ('online', 'Online'),
+    ]
+    staff = models.ForeignKey(Staff, on_delete=models.CASCADE, blank=True, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
+    payment_type = models.CharField(max_length=13, choices=PAYMENT_TYPE_CHOICES, blank=True, null=True)
+    note = models.TextField(blank=True, null=True)
+    is_delete = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = 'expense'
+
+    def __str__(self):
+        return self.staff

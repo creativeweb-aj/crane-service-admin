@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 from apps.users.models import User
-from apps.work_management.models import Staff, Customer, Work, Payment
+from apps.work_management.models import Staff, Customer, Work, Payment, Expense
 
 
 class StaffForm(forms.ModelForm):
@@ -410,4 +410,79 @@ class PaymentForm(forms.ModelForm):
         data = self.cleaned_data['note']
         # if not data:
         #     raise ValidationError(self.fields['note'].error_messages['required'])
+        return data
+
+
+class ExpenseForm(forms.ModelForm):
+    staff = forms.ModelChoiceField(
+        queryset=Staff.objects.filter(is_active=True, is_delete=False),
+        required=False,
+        label='Staff',
+        widget=forms.Select(
+            attrs={'class': "form-control form-control-solid form-control-lg"}
+        ),
+        error_messages={
+            'required': "Staff is required"
+        }
+    )
+    amount = forms.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        required=False,
+        label='Amount',
+        widget=forms.NumberInput(
+            attrs={'class': "form-control form-control-solid form-control-lg", 'placeholder': 'Amount'}
+        ),
+        error_messages={
+            'required': "Amount is required"
+        }
+    )
+    payment_type = forms.ChoiceField(
+        choices=Expense.PAYMENT_TYPE_CHOICES,
+        required=False,
+        label='Payment Type',
+        widget=forms.Select(
+            attrs={'class': "form-control form-control-solid form-control-lg"}
+        ),
+        error_messages={
+            'required': "Payment type is required"
+        }
+    )
+    note = forms.CharField(
+        required=False,
+        label='Note',
+        widget=forms.Textarea(
+            attrs={'class': "form-control form-control-solid form-control-lg", 'rows': 3, 'placeholder': 'Note'}
+        ),
+        error_messages={
+            # You may decide not to require a note, thus not setting a 'required' error message here
+        }
+    )
+
+    class Meta:
+        model = Expense
+        fields = ['staff', 'amount', 'payment_type', 'note']
+
+    def clean_staff(self):
+        data = self.cleaned_data['staff']
+        if not data:
+            raise ValidationError(self.fields['staff'].error_messages['required'])
+        return data
+
+    def clean_amount(self):
+        data = self.cleaned_data['amount']
+        if not data:
+            raise ValidationError(self.fields['amount'].error_messages['required'])
+        return data
+
+    def clean_payment_type(self):
+        data = self.cleaned_data['payment_type']
+        if not data:
+            raise ValidationError(self.fields['payment_type'].error_messages['required'])
+        return data
+
+    def clean_note(self):
+        data = self.cleaned_data['note']
+        if not data:
+            raise ValidationError(self.fields['note'].error_messages['required'])
         return data
