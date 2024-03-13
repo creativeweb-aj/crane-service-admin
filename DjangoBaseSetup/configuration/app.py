@@ -16,5 +16,6 @@ DJANGO_APP = [
     'apps.about',
     'apps.customers',
     'apps.social_page',
+    'apps.work_management',
     'drf_yasg',
 ]

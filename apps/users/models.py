@@ -86,7 +86,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        return self.first_name + ' ' + self.last_name
 
     def has_perm(self, perm, obj=None):
         """Does the UserApi have a specific permission?"""

@@ -46,6 +46,7 @@ urlpatterns = [
     path('abouts/', include('apps.about.urls')),
     path('customer/', include('apps.customers.urls')),
     path('social/', include('apps.social_page.urls')),
+    path('work-management/', include('apps.work_management.urls')),
 ]
 
 handler404 = MainService.error_404

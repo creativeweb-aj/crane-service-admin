@@ -228,7 +228,7 @@ def indexSocialLink(request):
         'model_name_singular': SOCIAL_LINK_MODEL_NAME_SINGULAR,
         'model_name_plural': SOCIAL_LINK_MODEL_NAME_PLURAL
     }
-    return render(request, "social-link/index.html", context)
+    return render(request, "staff/index.html", context)
 
 
 @login_required(login_url='login')
@@ -249,7 +249,7 @@ def addSocialLink(request):
         'model_name_singular': SOCIAL_PAGE_MODEL_NAME_SINGULAR,
         'model_name_plural': SOCIAL_PAGE_MODEL_NAME_PLURAL
     }
-    return render(request, "social-link/add.html", context)
+    return render(request, "staff/add.html", context)
 
 
 @login_required(login_url='login')
@@ -278,7 +278,7 @@ def updateSocialLink(request, id):
         'model_name_singular': SOCIAL_LINK_MODEL_NAME_SINGULAR,
         'model_name_plural': SOCIAL_LINK_MODEL_NAME_PLURAL
     }
-    return render(request, 'social-link/edit.html', context)
+    return render(request, 'staff/edit.html', context)
 
 
 @login_required(login_url='login')
@@ -291,7 +291,7 @@ def viewSocialLink(request, id):
         'model_name_singular': SOCIAL_LINK_MODEL_NAME_SINGULAR,
         'model_name_plural': SOCIAL_LINK_MODEL_NAME_PLURAL
     }
-    return render(request, "social-link/view.html", context)
+    return render(request, "staff/view.html", context)
 
 
 @login_required(login_url='login')
