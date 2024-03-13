@@ -4,8 +4,8 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from DjangoBaseSetup.common_modules.mainService import MainService
-from apps.work_management.form import StaffForm, CustomerForm
-from apps.work_management.models import Staff, Customer
+from apps.work_management.form import StaffForm, CustomerForm, WorkForm
+from apps.work_management.models import Staff, Customer, Work
 
 STAFF_MODEL_NAME_SINGULAR = 'Staff'
 STAFF_MODEL_NAME_PLURAL = 'Staffs'
@@ -291,3 +291,183 @@ def deleteCustomer(request, id):
     obj.save()
     messages.success(request, "Customer deleted successfully")
     return redirect('customer.index')
+
+
+WORK_MODEL_NAME_SINGULAR = 'Work'
+WORK_MODEL_NAME_PLURAL = 'Works'
+
+
+@login_required(login_url='login')
+def indexWork(request):
+    DB = Work.objects.filter(is_delete=False)
+
+    if request.GET.get('work_title'):
+        name = request.GET.get('work_title').strip()
+        DB = DB.filter(name__icontains=name)
+
+    orderBy = request.GET.get('order_by', "created_at")
+    direction = request.GET.get('direction', "DESC")
+    if direction == "DESC":
+        DB = DB.order_by("-" + orderBy).all()
+    else:
+        DB = DB.order_by(orderBy).all()
+
+    # Create main service instance with request
+    service = MainService(request)
+    totalRecord = DB.count()
+    # get page record data from service
+    # Get page size value
+    recordPerPage = service.getPageRecordSize()
+
+    page = request.GET.get('page', 1)
+    paginator = Paginator(DB, recordPerPage)
+    try:
+        results = paginator.page(page)
+    except PageNotAnInteger:
+        results = paginator.page(1)
+    except EmptyPage:
+        results = paginator.page(paginator.num_pages)
+    pageStart = results.start_index()
+    pageEnd = results.end_index()
+
+    # Get page range
+    pageRange = service.getPageRange(results, paginator)
+
+    searchingVariables = request.GET
+    queryString = searchingVariables.copy()
+    if 'page' in queryString:
+        queryString.pop("page")
+    if 'direction' in queryString:
+        queryString.pop("direction")
+    if 'order_by' in queryString:
+        queryString.pop("order_by")
+    queryString = urlencode(queryString)
+
+    context = {
+        'results': results,
+        'page_start': pageStart,
+        'page_end': pageEnd,
+        'total_record': totalRecord,
+        'page_size': recordPerPage,
+        'page': page,
+        'page_range': pageRange,
+        'order_by': orderBy,
+        'direction': direction,
+        'searching_variables': searchingVariables,
+        'query_string': queryString,
+        'model_name_singular': WORK_MODEL_NAME_SINGULAR,
+        'model_name_plural': WORK_MODEL_NAME_PLURAL
+    }
+    return render(request, "work/index.html", context)
+
+
+@login_required(login_url='login')
+def addWork(request):
+    if request.method == "POST":
+        form = WorkForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Work added successfully")
+            return redirect('work.index')
+        else:
+            for field in form.errors:
+                form[field].field.widget.attrs['class'] += ' is-invalid'
+    else:
+        form = WorkForm()
+    context = {
+        "form": form,
+        'model_name_singular': WORK_MODEL_NAME_SINGULAR,
+        'model_name_plural': WORK_MODEL_NAME_PLURAL
+    }
+    return render(request, "work/add.html", context)
+
+
+@login_required(login_url='login')
+def updateWork(request, id):
+    obj = Work.objects.get(id=id)
+    if not obj:
+        return redirect('work.index')
+    if request.method == "POST":
+        form = WorkForm(request.POST, request.FILES, instance=obj)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Work updated successfully")
+            return redirect('work.index')
+        else:
+            for field in form.errors:
+                form[field].field.widget.attrs['class'] += ' is-invalid'
+    else:
+        data = {
+            "customer": obj.customer,
+            "work_title": obj.work_title,
+            "work_detail": obj.work_detail,
+            "work_location": obj.work_location,
+            "start_date_time": obj.start_date_time,
+            "end_date_time": obj.end_date_time,
+            "amount": obj.amount,
+            "note": obj.note,
+        }
+        form = WorkForm(initial=data)
+    context = {
+        'form': form,
+        'data': obj,
+        'model_name_singular': WORK_MODEL_NAME_SINGULAR,
+        'model_name_plural': WORK_MODEL_NAME_PLURAL
+    }
+    return render(request, 'work/edit.html', context)
+
+
+@login_required(login_url='login')
+def viewWork(request, id):
+    obj = Work.objects.get(id=id)
+    if not obj:
+        return redirect('work.index')
+    context = {
+        "data": obj,
+        'model_name_singular': WORK_MODEL_NAME_SINGULAR,
+        'model_name_plural': WORK_MODEL_NAME_PLURAL
+    }
+    return render(request, "work/view.html", context)
+
+
+@login_required(login_url='login')
+def statusWork(request, id):
+    obj = Work.objects.get(id=id)
+    if not obj:
+        return redirect('work.index')
+    if obj.is_active:
+        obj.is_active = False
+        obj.save()
+        messages.success(request, "Work deactivated successfully")
+    else:
+        obj.is_active = True
+        obj.save()
+        messages.success(request, "Work activated successfully")
+    return redirect('work.index')
+
+
+@login_required(login_url='login')
+def statusWorkComplete(request, id):
+    obj = Work.objects.get(id=id)
+    if not obj:
+        return redirect('work.index')
+    if obj.is_complete:
+        obj.is_complete = False
+        obj.save()
+        messages.success(request, "Work uncompleted successfully")
+    else:
+        obj.is_complete = True
+        obj.save()
+        messages.success(request, "Work completed successfully")
+    return redirect('work.index')
+
+
+@login_required(login_url='login')
+def deleteWork(request, id):
+    obj = Work.objects.get(id=id)
+    if not obj:
+        return redirect('work.index')
+    obj.is_delete = True
+    obj.save()
+    messages.success(request, "Work deleted successfully")
+    return redirect('work.index')

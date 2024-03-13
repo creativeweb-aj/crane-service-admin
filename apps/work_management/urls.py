@@ -14,5 +14,13 @@ urlpatterns = [
     path('customer/add', views.addCustomer, name="customer.add"),
     path('customer/update/<int:id>', views.updateCustomer, name="customer.update"),
     path('customer/status/<int:id>', views.statusCustomer, name="customer.status"),
-    path('customer/delete/<int:id>', views.deleteCustomer, name="customer.delete")
+    path('customer/delete/<int:id>', views.deleteCustomer, name="customer.delete"),
+    # Work Urls
+    path('work/', views.indexWork, name="work.index"),
+    path('work/add', views.addWork, name="work.add"),
+    path('work/view/<int:id>', views.viewWork, name="work.view"),
+    path('work/update/<int:id>', views.updateWork, name="work.update"),
+    path('work/status/<int:id>', views.statusWork, name="work.status"),
+    path('work/complete-status/<int:id>', views.statusWorkComplete, name="work.status-complete"),
+    path('work/delete/<int:id>', views.deleteWork, name="work.delete")
 ]
